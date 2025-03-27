@@ -1,6 +1,5 @@
 'use client';
 
-//import getCurrentPath from '../common/currentLocation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
@@ -10,16 +9,13 @@ export default function BreadCrumbs() {
   const [locations, setLocations] = useState([]);
   const [path, setPath] = useState();
   const [name, setName] = useState();
-  // const appLocation = useLocation();
-  // const matches = useMatches();
-  // const currentPath = getCurrentPath();
 
   useEffect(() => {
     let crumbs = pathname.substring(1).split('/');
     //TODO: Replace with extra locations from currentpath
-    setLocations([]);
-    setPath(pathname);
-    setName(crumbs[0].toUpperCase() || 'HOME');
+    setLocations((crumbs) => crumbs.map((c) => ({ name: c, path: c })));
+    setPath((path) => pathname);
+    setName((name) => crumbs[1]?.toUpperCase() || 'HOME');
   }, [pathname]);
 
   return (

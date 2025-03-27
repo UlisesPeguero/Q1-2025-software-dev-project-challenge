@@ -1,8 +1,4 @@
-import React from 'react';
 import AppBarTitle from './AppBarTitle';
-import Image from 'next/image';
-
-import logo from '/public/img/logo.svg';
 import UserInformation from './UserInformation';
 import { Icon } from '../../ui/Icon';
 
@@ -16,7 +12,7 @@ export default function AppBar(props) {
           <Icon
             iconName='CashStack'
             size={36}
-            color='#4f52b2'
+            color='#7579eb'
             className='app-logo'
           />
           <AppBarTitle appTitle={props.appTitle} />

@@ -1,9 +1,3 @@
-import styles from "./page.module.css";
-
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      meow
-    </div>
-  );
+export default function RootPage() {
+  return <div>/</div>;
 }
