@@ -11,11 +11,20 @@ export default function BreadCrumbs() {
   const [name, setName] = useState();
 
   useEffect(() => {
+    //TODO: Find a better approach to removing /dashboard
     let crumbs = pathname.substring(1).split('/');
-    //TODO: Replace with extra locations from currentpath
-    setLocations((crumbs) => crumbs.map((c) => ({ name: c, path: c })));
-    setPath((path) => pathname);
-    setName((name) => crumbs[1]?.toUpperCase() || 'HOME');
+    let _locations = [];
+    let _path = '/' + crumbs[0] + '/';
+    for (let i = 1; i < crumbs.length; i++) {
+      _path += crumbs[i] + '/';
+      _locations.push({
+        name: crumbs[i].toUpperCase(),
+        path: _path,
+      });
+    }
+    setLocations((locations) => [..._locations].splice(1));
+    setPath((path) => _locations[0]?.path);
+    setName((name) => _locations[0]?.name.toUpperCase() || 'HOME');
   }, [pathname]);
 
   return (
