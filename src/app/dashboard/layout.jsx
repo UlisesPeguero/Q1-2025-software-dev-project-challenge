@@ -1,8 +1,8 @@
 import './dashboard.css';
 
 import AppBar from '#/dashboard/header/AppBar';
-import Navigation from '#/dashboard/navigation';
 import BreadCrumbs from '#/dashboard/BreadCrumbs';
+import NavigationBar from '#/dashboard/navigation/NavigationBar';
 
 export default function DashboardLayout({ children }) {
   //TODO Change to DB call
@@ -10,43 +10,38 @@ export default function DashboardLayout({ children }) {
     {
       id: 1,
       name: 'Home',
-      path: '/',
+      path: '/dashboard',
       icon: 'House',
-      active: false,
+      active: true,
     },
     {
       id: 2,
-      name: 'Employees',
-      path: '/employees',
-      icon: 'PersonRolodex',
-      active: false,
+      name: 'Transactions',
+      path: '/dashboard/transactions',
+      icon: 'Receipt',
+      active: true,
     },
     {
       id: 3,
       name: 'Users',
-      path: '/users',
+      path: '/dashboard/users',
       icon: 'PeopleFill',
-      active: false,
+      active: true,
     },
     {
       id: 4,
       name: 'Settings',
-      path: '/settings',
+      path: '/dashboard/settings',
       icon: 'Gear',
-      active: false,
+      active: true,
     },
   ];
-  let activeModule = modules[0];
 
   return (
     <>
       <AppBar appTitle='FINANCE TRACKER' />
       <div className='d-flex'>
-        <Navigation
-          base='/dashboard'
-          modules={modules}
-          activeModule={activeModule}
-        />
+        <NavigationBar modules={modules} />
         <div className='d-flex flex-column w-100'>
           <BreadCrumbs />
           <main className='content pt-1 px-4  col-lg-12 col-xl-10 col-xxl-8'>

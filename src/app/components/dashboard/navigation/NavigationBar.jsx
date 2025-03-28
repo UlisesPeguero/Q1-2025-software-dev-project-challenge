@@ -1,18 +1,21 @@
 'use client';
 
-import styles from './NavigationBar.module.css';
-import React from 'react';
+import { usePathname } from 'next/navigation';
 import NavigationItem from './NavigationItem';
+import { useEffect, useState } from 'react';
 
-export default function NavigationBar({
-  basePath,
-  modules,
-  activeModule,
-  handleActiveModule,
-}) {
+export default function NavigationBar({ modules }) {
+  const [activeModule, setActiveModule] = useState();
+  const pathname = usePathname();
+
   const handleActive = (module) => {
-    handleActiveModule(module);
+    setActiveModule(module);
   };
+
+  useEffect(() => {
+    handleActive(modules.findLast((m) => pathname.startsWith(m.path)));
+  }, [pathname]);
+
   return (
     <nav
       className={
@@ -23,7 +26,6 @@ export default function NavigationBar({
         {modules.map((module) => (
           <NavigationItem
             key={module.id}
-            basePath={basePath}
             module={module}
             setActive={handleActive}
             isActive={activeModule === module}

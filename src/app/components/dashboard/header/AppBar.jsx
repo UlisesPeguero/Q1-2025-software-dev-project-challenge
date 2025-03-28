@@ -4,7 +4,7 @@ import { Icon } from '../../ui/Icon';
 
 export default function AppBar(props) {
   return (
-    <header className='app-header border-bottom shadow-sm'>
+    <header className='app-header border-bottom shadow-sm text-light bg-dark bg-gradient'>
       <div
         className='container-fluid d-grid gap-3 alignt-items-center px-2 px-md-3'
         style={{ gridTemplateColumns: '1fr 1fr' }}>

@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './globals.css';
-import BootstrapClient from '@/util/BootstrapClient';
+import BootstrapClient from '@/lib/BootstrapClient';
 
 export const metadata = {
   title: 'Finance Tracker',
