@@ -44,7 +44,7 @@ export default function DashboardLayout({ children }) {
         <NavigationBar modules={modules} />
         <div className='d-flex flex-column w-100'>
           <BreadCrumbs />
-          <main className='content pt-1 px-4  col-lg-12 col-xl-10 col-xxl-8'>
+          <main className='content pt-1 px-4  col-lg-12 col-xl-10 col-xxl-8 bg-light'>
             {children}
           </main>
         </div>

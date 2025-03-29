@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '../../ui/Icon';
+import { Icon } from '../../Icon';
 import { useRouter } from 'next/navigation';
 
 export default function NavigationItem(props) {
@@ -12,7 +12,8 @@ export default function NavigationItem(props) {
   };
   const ModuleIcon = () => <Icon iconName={icon} className='my-2' />;
   return (
-    <li className={`nav-item ${props.isActive ? 'active-module' : ''}`}>
+    <li
+      className={`nav-item ${props.isActive ? 'active-module bg-light' : ''}`}>
       {props.isActive ? (
         <ModuleIcon />
       ) : (

@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css';
 import BootstrapClient from '@/lib/BootstrapClient';
 
@@ -10,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body>
+      <body className='bg-light'>
         {children}
         <BootstrapClient />
       </body>
