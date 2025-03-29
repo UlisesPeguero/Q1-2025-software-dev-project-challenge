@@ -9,6 +9,17 @@ body {
   overflow: hidden;
 }
 
+.btn-primary {
+  --bs-btn-bg: #7579eb;
+  --bs-btn-border-color: #7579eb;
+  --bs-btn-hover-bg: #5b5fc7;
+  --bs-btn-hover-border-color: #0a58ca;
+  --bs-btn-active-bg: #0a58ca;
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-disabled-bg: ##7579eb;
+  --bs-btn-disabled-border-color: #7579eb;
+}
+
 /*Remove arror inputs to [number]*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

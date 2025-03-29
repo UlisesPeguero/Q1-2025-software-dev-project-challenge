@@ -1,6 +1,6 @@
 import AppBarTitle from './AppBarTitle';
 import UserInformation from './UserInformation';
-import { Icon } from '../../ui/Icon';
+import { Icon } from '../../Icon';
 
 export default function AppBar(props) {
   return (
