@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 
-function SimpleInput({
-  name,
-  type,
-  classes,
-  ...rest
-}) {
+function SimpleInput({ name, type, classes, ...rest }) {
   const inputClass = 'form-control ' + classes;
   return (
-    <input id={name}
-      name={name}
-      type={type}
-      className={inputClass}
-      {...rest} />
+    <input id={name} name={name} type={type} className={inputClass} {...rest} />
   );
 }
 
@@ -23,20 +14,38 @@ export default function Input({
   containerClasses = 'col-12',
   inputClasses = '',
   initialValue = '',
-  ...rest }) {
+  invalidFeedback,
+  ...rest
+}) {
   const _containerClass = '' + containerClasses;
   const _labelClass = 'form-label';
 
   return (
     <div className={_containerClass}>
-      {
-        label && <label htmlFor={name} className={_labelClass}>{label}</label>
-      }
+      {label && (
+        <label htmlFor={name} className={_labelClass}>
+          {label}
+        </label>
+      )}
       <SimpleInput
         name={name}
         type={type}
-        classes={inputClasses}
-        {...rest} />
+        classes={inputClasses + (invalidFeedback ? ' is-invalid' : '')}
+        {...rest}
+      />
+      {invalidFeedback && (
+        <div className='invalid-feedback'>
+          {invalidFeedback.length > 1 ? (
+            <ul>
+              {invalidFeedback.map((error) => (
+                <li key={error}>- {error} </li>
+              ))}
+            </ul>
+          ) : (
+            invalidFeedback
+          )}
+        </div>
+      )}
     </div>
   );
 }

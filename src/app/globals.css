@@ -34,6 +34,10 @@ input[type='number'] {
   appearance: textfield;
 }
 
+.btn:disabled {
+  background-color: #7579ebb6;
+}
+
 /* button hover decoration */
 .btn:hover {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
@@ -66,6 +70,12 @@ input[type='number'] {
 tr.inactive td {
   font-style: oblique;
   color: #777 !important;
+}
+
+.invalid-feedback > ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .themeColorPreview {

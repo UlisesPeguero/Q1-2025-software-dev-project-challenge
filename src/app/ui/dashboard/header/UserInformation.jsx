@@ -1,16 +1,16 @@
-'use client';
-
 import { PersonCircle, BoxArrowRight } from 'react-bootstrap-icons';
 import { logout } from '@/app/actions/auth/session';
+import { getProfileInfo } from '@/lib/data/dashboard';
 
-export default function UserInformation(props) {
-  const { name, profilePicture } = props.user || {
-    name: 'Place Holder',
-    profilePicture: null,
-  };
+export default async function UserInformation(props) {
+  const result = await getProfileInfo();
+  const name = result.username;
+  //TODO: Add profile pictures
+  const profilePicture = null;
+
   return (
     <div className='d-flex align-items-center justify-content-end'>
-      <span className='user-name mx-1'>{name}</span>
+      <span className='user-name mx-1 text-capitalize'>{name}</span>
       <span className='d-none d-sm-inline-block mx-2 dropdown'>
         {profilePicture ? (
           <img
@@ -28,7 +28,7 @@ export default function UserInformation(props) {
           aria-expanded='false'></button>
         <ul className='dropdown-menu position-fixed'>
           <li>
-            <a className='dropdown-item' href='#' role='button'>
+            <a className='dropdown-item' href='#' role='button' disabled>
               Profile
             </a>
           </li>

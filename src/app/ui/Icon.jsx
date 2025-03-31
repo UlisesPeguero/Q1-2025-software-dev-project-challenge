@@ -1,6 +1,6 @@
 import * as icons from 'react-bootstrap-icons';
 
-// dinamyc icon 
+// dinamyc icon
 // code from https://www.npmjs.com/package/react-bootstrap-icons
 
 export const Icon = ({ iconName, ...props }) => {

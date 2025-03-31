@@ -56,6 +56,15 @@ export async function createSession(userId, admin) {
   }
 }
 
+export async function getCurrentSession() {
+  const session = (await cookies()).get(COOKIE_NAME)?.value;
+  const payload = decryptToken(session);
+
+  if (!session || !payload) return null;
+
+  return payload;
+}
+
 export async function updateSession() {
   const session = (await cookies()).get(COOKIE_NAME)?.value;
   const payload = decryptToken(session);

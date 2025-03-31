@@ -9,6 +9,7 @@ export default function Select({
   selectClasses = '',
   labelClasses = '',
   onChange,
+  invalidFeedback = nulls,
   ...rest
 }) {
   const [selectedValue, setSelectedValue] = useState(_selectedValue);
@@ -23,26 +24,33 @@ export default function Select({
   };
   return (
     <div className={_containerClass}>
-      {label && <label htmlFor={name} className={_labelClass}>{label}</label>}
+      {label && (
+        <label htmlFor={name} className={_labelClass}>
+          {label}
+        </label>
+      )}
       <select
         name={name}
         id={name}
         aria-label={name}
-        className={_selectClass}
+        className={_selectClass + (invalidFeedback ? ' is-invalid' : '')}
         value={selectedValue}
-        onChange={handleSelectedOption}
-      >
-        {
-          options.map((option, index) => {
-            const id = typeof option === 'object' ? (option?.id || option.value) : option;
-            const description = typeof option === 'object' ? (option?.description || id) : option;
-            return (
-              <option key={id} value={id}>
-                {description}
-              </option>);
-          })
-        }
+        onChange={handleSelectedOption}>
+        {options.map((option, index) => {
+          const id =
+            typeof option === 'object' ? option?.id || option.value : option;
+          const description =
+            typeof option === 'object' ? option?.description || id : option;
+          return (
+            <option key={id} value={id}>
+              {description}
+            </option>
+          );
+        })}
       </select>
+      {invalidFeedback && (
+        <div className='invalid-feedback'>{invalidFeedback}</div>
+      )}
     </div>
   );
 }
