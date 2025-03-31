@@ -34,7 +34,17 @@ export default function Input({
         {...rest}
       />
       {invalidFeedback && (
-        <div className='invalid-feedback'>{invalidFeedback}</div>
+        <div className='invalid-feedback'>
+          {invalidFeedback.length > 1 ? (
+            <ul>
+              {invalidFeedback.map((error) => (
+                <li key={error}>- {error} </li>
+              ))}
+            </ul>
+          ) : (
+            invalidFeedback
+          )}
+        </div>
       )}
     </div>
   );

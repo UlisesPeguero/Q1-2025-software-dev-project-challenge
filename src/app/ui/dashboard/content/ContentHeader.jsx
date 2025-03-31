@@ -1,40 +1,49 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { BoxArrowInLeft } from 'react-bootstrap-icons';
-import Button from '../../ui/Button';
+'use client';
 
-const BackButton = function ({ backButtonTo, value = null, classes = 'btn-secondary', tooltip = 'Go back' }) {
-  const navigate = useNavigate();
+import { BoxArrowInLeft } from 'react-bootstrap-icons';
+import Button from '#/Button';
+import { useRouter } from 'next/navigation';
+
+const BackButton = function ({
+  backButtonTo,
+  value = null,
+  classes = 'btn-secondary',
+  tooltip = 'Go back',
+}) {
+  const router = useRouter();
 
   const handleOnClick = function () {
     console.log('BackButton', backButtonTo);
-    navigate(backButtonTo);
+    if (backButtonTo === -1) router.back();
+    else router.push(backButtonTo);
   };
-  return <Button classes={classes} onClick={handleOnClick} tooltip={tooltip}>
-    {
-      backButtonTo === -1 && value === null
-        ? <BoxArrowInLeft size={24} />
-        : value
-    }
-  </Button>;
+  return (
+    <Button classes={classes} onClick={handleOnClick} tooltip={tooltip}>
+      {backButtonTo === -1 && value === null ? (
+        <BoxArrowInLeft size={24} />
+      ) : (
+        value
+      )}
+    </Button>
+  );
 };
 
 export default function ContentHeader({
   backButton = true,
   backButtonTo = -1,
   title = '',
-  children
+  children,
 }) {
-
   return (
-    <div className="d-flex align-items-center col-12 border-bottom pb-2 mb-3">
-      {
-        backButton && <BackButton backButtonTo={backButtonTo} value={typeof backButton !== 'boolean' ? backButton : null} />
-      }
+    <div className='d-flex align-items-center col-12 border-bottom pb-2 mb-3'>
+      {backButton && (
+        <BackButton
+          backButtonTo={backButtonTo}
+          value={typeof backButton !== 'boolean' ? backButton : null}
+        />
+      )}
       <span className='fw-semibold px-2'>{title}</span>
-      {
-        children
-      }
+      {children}
     </div>
   );
 }

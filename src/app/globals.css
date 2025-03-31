@@ -72,6 +72,12 @@ tr.inactive td {
   color: #777 !important;
 }
 
+.invalid-feedback > ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
 .themeColorPreview {
   display: inline-block;
   width: 42px;
