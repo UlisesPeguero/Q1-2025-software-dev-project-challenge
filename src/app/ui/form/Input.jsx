@@ -20,6 +20,10 @@ export default function Input({
   const _containerClass = '' + containerClasses;
   const _labelClass = 'form-label';
 
+  invalidFeedback = invalidFeedback?.errors['name'];
+  if (typeof label === 'undefined')
+    label = name.charAt(0).toUpperCase() + name.slice(1);
+
   return (
     <div className={_containerClass}>
       {label && (

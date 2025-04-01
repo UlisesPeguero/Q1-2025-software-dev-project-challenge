@@ -20,12 +20,22 @@ body {
   --bs-btn-disabled-border-color: #7579eb;
 }
 
+.btn-danger {
+  --bs-btn-bg: #94232e;
+}
+
 /*Remove arror inputs to [number]*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+select,
+text,
+input {
+  border-radius: 2px !important;
 }
 
 /* Firefox */

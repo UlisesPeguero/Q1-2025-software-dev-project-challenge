@@ -8,7 +8,7 @@ export default function Transactions() {
   const router = useRouter();
 
   function handleAddClick(event) {
-    router.push('./create');
+    router.push('./transactions/create');
   }
 
   return (

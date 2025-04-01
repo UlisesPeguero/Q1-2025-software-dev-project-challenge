@@ -1,34 +1,17 @@
-'use client';
-
 import ContentHeader from '@/app/ui/dashboard/content/ContentHeader';
-import ToolBar from '@/app/ui/ToolBar';
+import TransactionToolbar from './TransactionToolbar';
+import TransactionForm from './TransactionForm';
+import { getTransactionCategories } from '@/lib/data/transactions';
 
-export default function CreateTransaction() {
+export default async function CreateTransaction() {
+  const categories = await getTransactionCategories();
+
   return (
     <>
-      <ContentHeader title='Test title'>
-        <ToolBar
-          align='right'
-          buttons={[
-            {
-              text: 'Delete',
-              message: 'Delete some test.',
-              classes: 'btn-danger',
-              icon: 'Trash',
-              onClick: () => console.log('Delete something'),
-            },
-            {
-              separator: true,
-            },
-            {
-              text: 'Other stuff',
-              message: 'Some other stuff..',
-              icon: 'Table',
-              onClick: () => console.log('Other something'),
-            },
-          ]}
-        />
+      <ContentHeader title='New transaction'>
+        <TransactionToolbar />
       </ContentHeader>
+      <TransactionForm categories={categories} />
     </>
   );
 }
