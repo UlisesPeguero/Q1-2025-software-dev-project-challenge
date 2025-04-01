@@ -35,7 +35,7 @@ export async function login(state, formData) {
     const user = result[0];
 
     // if valid credentials -> authorize
-    if (await verifyPassword(data.password, user.hashed_password)) {
+    if (await verifyPassword(data.password, user.hashedPassword)) {
       await createSessionAndRedirect(user);
     }
   }

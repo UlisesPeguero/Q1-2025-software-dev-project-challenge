@@ -7,10 +7,6 @@ import { useRouter } from 'next/navigation';
 export default function Transactions() {
   const router = useRouter();
 
-  function handleAddClick(event) {
-    router.push('./create');
-  }
-
   return (
     <>
       <ContentHeader title='Transactions'>
@@ -21,13 +17,13 @@ export default function Transactions() {
               text: 'New',
               message: 'Add a new transaction.',
               icon: 'Plus',
-              onClick: handleAddClick,
+              onClick: () => router.push('./transactions/create'),
             },
             {
-              text: 'Roles and Privileges',
-              message: 'View Roles and Privileges.',
-              // icon: 'Table',
-              onClick: () => console.log('Other test something'),
+              text: 'Categories',
+              message: 'Manage transaction categories',
+              icon: 'Table',
+              onClick: () => router.push('./transactions/categories'),
             },
           ]}
         />

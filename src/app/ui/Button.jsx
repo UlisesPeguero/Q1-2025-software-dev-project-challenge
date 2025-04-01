@@ -36,7 +36,7 @@ export default function Button({
     style = {
       outline: 'none',
       borderWidth: '0',
-      //borderRadius: '2px',
+      borderRadius: '2px',
       boxShadow: '0 1px 4px rgba(0, 0, 0, .6)',
     };
   return (

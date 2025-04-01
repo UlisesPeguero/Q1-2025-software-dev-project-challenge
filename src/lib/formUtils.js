@@ -3,7 +3,7 @@ export function getRawFormData(formData) {
 }
 
 export function validateFormData(formData, schema) {
-  const data = getRawFormData(formData);
+  let data = getRawFormData(formData);
   const validation = schema.safeParse(data);
 
   let validationResult = {
@@ -15,6 +15,8 @@ export function validateFormData(formData, schema) {
       success: false,
       errors: validation.error.flatten().fieldErrors,
     };
+  } else {
+    data = validation.data;
   }
 
   return [data, validationResult];

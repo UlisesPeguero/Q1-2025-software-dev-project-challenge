@@ -9,7 +9,7 @@ export default function Select({
   selectClasses = '',
   labelClasses = '',
   onChange,
-  invalidFeedback = nulls,
+  invalidFeedback = null,
   ...rest
 }) {
   const [selectedValue, setSelectedValue] = useState(_selectedValue);
@@ -17,6 +17,10 @@ export default function Select({
   const _containerClass = containerClasses;
   const _selectClass = 'form-select ' + selectClasses;
   const _labelClass = 'form-label ' + labelClasses;
+
+  invalidFeedback = invalidFeedback?.errors['name'];
+  if (typeof label === 'undefined')
+    label = name.charAt(0).toUpperCase() + name.slice(1);
 
   const handleSelectedOption = ({ target }) => {
     setSelectedValue(target.value);

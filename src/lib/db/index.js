@@ -6,6 +6,7 @@ const sql = postgres('postgres://username:password@localhost:5432/database', {
   database: process.env.SQL_DATABASE,
   username: process.env.SQL_USERNAME,
   password: process.env.SQL_PASSWORD,
+  transform: postgres.toCamel,
 });
 
 export default sql;

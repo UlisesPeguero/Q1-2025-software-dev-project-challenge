@@ -9,8 +9,6 @@ export async function getProfileInfo() {
   const result = await sql`
     SELECT username, email FROM app.users WHERE id=${session.userId}`;
 
-  console.log(result);
-
   if (result.length === 0) return null;
 
   return result[0];
