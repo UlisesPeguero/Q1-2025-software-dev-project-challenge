@@ -11,29 +11,42 @@ import { useRouter } from 'next/navigation';
 
 export default function TransactionForm({ data, categories }) {
   const router = useRouter();
-  const [transaction, setTransaction] = useState();
+  const [transaction, setTransaction] = useState({
+    date: '',
+    categoryId: '',
+    amount: '',
+    description: '',
+    active: '',
+  });
   const [isUpdate, setIsUpdate] = useState();
+  const [edited, setEdited] = useState(false);
   const [state, createTransactionAction, pending] = useActionState(
     createTransaction,
     undefined
   );
 
   useEffect(() => {
-    setTransaction(data);
+    if (data) setTransaction(data);
     setIsUpdate(!!data);
-    console.log(data);
-  }, [transaction]);
+  }, [data]);
 
-  async function handleOnSubmit(event) {
+  const handleOnChange = (updatedData) => {
+    console.log(updatedData);
+    setTransaction({
+      ...transaction,
+      ...updatedData,
+    });
+    setEdited(true);
+  };
+
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     if (formData.get('active') === 'on') formData.set('active', true);
     startTransition(() => createTransactionAction(formData));
-  }
+  };
 
-  function handleBtnCancel() {
-    router.replace('../transactions');
-  }
+  const handleBtnCancel = () => router.replace('../transactions');
 
   return (
     <>
@@ -41,6 +54,8 @@ export default function TransactionForm({ data, categories }) {
         <Input
           name='date'
           type='date'
+          value={transaction}
+          onChangeText={handleOnChange}
           invalidFeedback={state}
           containerClasses='col-auto'
         />
@@ -54,9 +69,17 @@ export default function TransactionForm({ data, categories }) {
           name='amount'
           type='number'
           containerClasses='col-4'
+          value={transaction}
+          onChangeText={handleOnChange}
           invalidFeedback={state}
         />
-        <TextArea name='description' rows={2} invalidFeedback={state} />
+        <TextArea
+          name='description'
+          rows={2}
+          value={transaction}
+          onChangeText={handleOnChange}
+          invalidFeedback={state}
+        />
         {isUpdate && (
           <CheckBox name='active' label='Active' isSwitch checked={true} />
         )}
