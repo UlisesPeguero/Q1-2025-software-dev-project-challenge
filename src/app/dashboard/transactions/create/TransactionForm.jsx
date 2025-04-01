@@ -5,6 +5,8 @@ import { createTransaction } from '@/app/actions/transactions';
 import Select from '#/form/Select';
 import { startTransition, useActionState } from 'react';
 import ToolBar from '#/ToolBar';
+import CheckBox from '#/form/CheckBox';
+import TextArea from '#/form/TextArea';
 
 export default function TransactionForm({ categories }) {
   const [state, createTransactionAction, pending] = useActionState(
@@ -32,6 +34,7 @@ export default function TransactionForm({ categories }) {
         />
         <Select
           name='categoryId'
+          label='Category'
           options={categories}
           invalidFeedback={state}
         />
@@ -41,6 +44,8 @@ export default function TransactionForm({ categories }) {
           containerClasses='col-4'
           invalidFeedback={state}
         />
+        <TextArea name='description' rows={2} invalidFeedback={state} />
+        <CheckBox name='active' label='Active' isSwitch checked={true} />
         <ToolBar
           classes='w-100'
           gap={3}

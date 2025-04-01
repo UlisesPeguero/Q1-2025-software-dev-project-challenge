@@ -7,6 +7,17 @@ function SimpleInput({ name, type, classes, ...rest }) {
   );
 }
 
+function SimpleTextArea({ name, classes, rows = null, ...rest }) {
+  return (
+    <textarea
+      id={name}
+      name={name}
+      rows={rows}
+      className={('form-control ' + classes).trim()}
+      {...rest}></textarea>
+  );
+}
+
 export default function Input({
   name,
   label,
@@ -20,6 +31,8 @@ export default function Input({
   const _containerClass = '' + containerClasses;
   const _labelClass = 'form-label';
 
+  const _Input = type === 'textarea' ? SimpleTextArea : SimpleInput;
+
   invalidFeedback = invalidFeedback?.errors['name'];
   if (typeof label === 'undefined')
     label = name.charAt(0).toUpperCase() + name.slice(1);
@@ -31,7 +44,7 @@ export default function Input({
           {label}
         </label>
       )}
-      <SimpleInput
+      <_Input
         name={name}
         type={type}
         classes={inputClasses + (invalidFeedback ? ' is-invalid' : '')}

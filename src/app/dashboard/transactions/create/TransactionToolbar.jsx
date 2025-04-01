@@ -19,10 +19,10 @@ export default function TransactionToolbar() {
             separator: true,
           },
           {
-            text: 'Other stuff',
-            message: 'Some other stuff..',
+            text: 'Categories',
+            message: 'Manage transaction categories',
             icon: 'Table',
-            onClick: () => console.log('Other something'),
+            onClick: () => console.log('go to categories'),
           },
         ]}
       />

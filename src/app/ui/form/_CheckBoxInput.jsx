@@ -9,9 +9,11 @@ export default function _CheckBoxInput({
   inputClasses = '',
   labelClasses = '',
   reverse,
+  labelLocation = 'right',
   ...rest
 }) {
-  const _containerClass = 'form-check ' + containerClasses + (reverse ? ' form-check-reverse' : '');
+  const _containerClass =
+    'form-check ' + containerClasses + (reverse ? ' form-check-reverse' : '');
   const _inputClass = 'form-check-input ' + inputClasses;
   const _labelClass = 'form-check-label ' + labelClasses;
   const _id = id ? id : name;
@@ -19,6 +21,11 @@ export default function _CheckBoxInput({
   return (
     <>
       <div className={_containerClass}>
+        {label && labelLocation == 'left' && (
+          <label htmlFor={_id} className={_labelClass}>
+            {label}
+          </label>
+        )}
         <input
           id={_id}
           name={name}
@@ -26,7 +33,11 @@ export default function _CheckBoxInput({
           checked={checked}
           {...rest}
         />
-        {label && <label htmlFor={_id} className={_labelClass}>{label}</label>}
+        {label && labelLocation === 'right' && (
+          <label htmlFor={_id} className={_labelClass}>
+            {label}
+          </label>
+        )}
       </div>
     </>
   );

@@ -8,9 +8,10 @@ export default function CheckBox({
   ...rest
 }) {
   const [checked, setChecked] = useState(_checked);
-
   const handleCheckStatus = () => setChecked(!checked);
-  const switchProps = isSwitch ? { role: 'switch', containerClasses: 'form-switch' } : {};
+  const switchProps = isSwitch
+    ? { role: 'switch', containerClasses: 'form-switch' }
+    : {};
   return (
     <div className={containerClasses}>
       <CheckBoxInput
