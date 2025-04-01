@@ -3,25 +3,37 @@
 import Input from '#/form/Input';
 import { createTransaction } from '@/app/actions/transactions';
 import Select from '#/form/Select';
-import { startTransition, useActionState } from 'react';
+import { startTransition, useActionState, useState, useEffect } from 'react';
 import ToolBar from '#/ToolBar';
 import CheckBox from '#/form/CheckBox';
 import TextArea from '#/form/TextArea';
+import { useRouter } from 'next/navigation';
 
-export default function TransactionForm({ categories }) {
+export default function TransactionForm({ data, categories }) {
+  const router = useRouter();
+  const [transaction, setTransaction] = useState();
+  const [isUpdate, setIsUpdate] = useState();
   const [state, createTransactionAction, pending] = useActionState(
     createTransaction,
     undefined
   );
 
+  useEffect(() => {
+    setTransaction(data);
+    setIsUpdate(!!data);
+    console.log(data);
+  }, [transaction]);
+
   async function handleOnSubmit(event) {
     event.preventDefault();
-    startTransition(() =>
-      createTransactionAction(new FormData(event.currentTarget))
-    );
+    const formData = new FormData(event.currentTarget);
+    if (formData.get('active') === 'on') formData.set('active', true);
+    startTransition(() => createTransactionAction(formData));
   }
 
-  function handleBtnCancel() {}
+  function handleBtnCancel() {
+    router.replace('../transactions');
+  }
 
   return (
     <>
@@ -45,7 +57,9 @@ export default function TransactionForm({ categories }) {
           invalidFeedback={state}
         />
         <TextArea name='description' rows={2} invalidFeedback={state} />
-        <CheckBox name='active' label='Active' isSwitch checked={true} />
+        {isUpdate && (
+          <CheckBox name='active' label='Active' isSwitch checked={true} />
+        )}
         <ToolBar
           classes='w-100'
           gap={3}
@@ -54,12 +68,14 @@ export default function TransactionForm({ categories }) {
               icon: 'Eraser',
               classes: 'btn-secondary me-auto',
               message: 'Reset form',
+              busy: pending,
               type: 'reset',
             },
             {
               text: 'Cancel',
               classes: 'btn-secondary',
               message: 'Cancel',
+              busy: pending,
               onClick: handleBtnCancel,
             },
             {

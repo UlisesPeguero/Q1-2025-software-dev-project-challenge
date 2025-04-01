@@ -33,7 +33,7 @@ export default function Input({
 
   const _Input = type === 'textarea' ? SimpleTextArea : SimpleInput;
 
-  invalidFeedback = invalidFeedback?.errors['name'];
+  invalidFeedback = invalidFeedback?.errors[name];
   if (typeof label === 'undefined')
     label = name.charAt(0).toUpperCase() + name.slice(1);
 

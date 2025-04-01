@@ -13,17 +13,12 @@ const BackButton = function ({
   const router = useRouter();
 
   const handleOnClick = function () {
-    console.log('BackButton', backButtonTo);
     if (backButtonTo === -1) router.back();
     else router.push(backButtonTo);
   };
   return (
     <Button classes={classes} onClick={handleOnClick} tooltip={tooltip}>
-      {backButtonTo === -1 && value === null ? (
-        <BoxArrowInLeft size={24} />
-      ) : (
-        value
-      )}
+      {value === null ? <BoxArrowInLeft size={24} /> : value}
     </Button>
   );
 };

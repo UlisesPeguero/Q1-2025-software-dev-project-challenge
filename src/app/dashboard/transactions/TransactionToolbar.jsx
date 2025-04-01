@@ -15,15 +15,6 @@ export default function TransactionToolbar() {
             icon: 'Trash',
             onClick: () => console.log('Delete something'),
           },
-          {
-            separator: true,
-          },
-          {
-            text: 'Categories',
-            message: 'Manage transaction categories',
-            icon: 'Table',
-            onClick: () => console.log('go to categories'),
-          },
         ]}
       />
     </>
