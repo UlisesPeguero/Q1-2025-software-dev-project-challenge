@@ -3,12 +3,12 @@ import CheckBoxInput from './_CheckBoxInput';
 
 export default function CheckBox({
   containerClasses = 'col-12',
-  checked: _checked = false,
+  checked = false,
   isSwitch,
   ...rest
 }) {
-  const [checked, setChecked] = useState(_checked);
-  const handleCheckStatus = () => setChecked(!checked);
+  // const [checked, setChecked] = useState(_checked);
+  // const handleCheckStatus = () => setChecked(!checked);
   const switchProps = isSwitch
     ? { role: 'switch', containerClasses: 'form-switch' }
     : {};
@@ -17,7 +17,6 @@ export default function CheckBox({
       <CheckBoxInput
         type='checkbox'
         checked={checked}
-        onChange={handleCheckStatus}
         {...switchProps}
         {...rest}
       />

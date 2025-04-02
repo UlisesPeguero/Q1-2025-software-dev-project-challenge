@@ -26,12 +26,21 @@ export default function Input({
   inputClasses = '',
   initialValue = '',
   invalidFeedback,
+  onChangeValue,
   ...rest
 }) {
   const _containerClass = '' + containerClasses;
   const _labelClass = 'form-label';
-
   const _Input = type === 'textarea' ? SimpleTextArea : SimpleInput;
+
+  if (typeof rest.value === 'object') rest.value = rest.value[name];
+  if (typeof onChangeValue === 'function') {
+    rest.onChange = (event) => {
+      let data = {};
+      data[name] = event.target.value;
+      onChangeValue(data);
+    };
+  }
 
   invalidFeedback = invalidFeedback?.errors[name];
   if (typeof label === 'undefined')

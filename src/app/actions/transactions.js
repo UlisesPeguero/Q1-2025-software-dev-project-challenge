@@ -2,15 +2,11 @@
 
 import { addTransaction } from '@/lib/data/transactions';
 import TransactionSchema from '@/lib/data/TransactionSchema';
-import sql from '@/lib/db';
-import { validateFormData } from '@/lib/formUtils';
+import { validateData } from '@/lib/formUtils';
 import { redirect } from 'next/navigation';
 
-export async function createTransaction(state, formData) {
-  const [transaction, validation] = await validateFormData(
-    formData,
-    TransactionSchema.omit('active')
-  );
+export async function createTransaction(state, data) {
+  const validation = await validateData(data, TransactionSchema.omit('active'));
 
   if (!validation.success) {
     return {
@@ -18,7 +14,7 @@ export async function createTransaction(state, formData) {
     };
   }
 
-  //   const result = await addTransaction(transaction);
+  //   const result = await addTransaction(validation.data);
 
   //   if (result.length === 0) {
   //     return {
@@ -28,5 +24,5 @@ export async function createTransaction(state, formData) {
 
   const result = [{ id: 1 }];
 
-  redirect(`transactions/${result[0].id}`);
+  redirect(`/transactions/${result[0].id}`);
 }
