@@ -18,10 +18,11 @@ export async function addTransaction(transaction) {
 
 export async function getTransaction(id) {
   const result = await sql`
-  SELECT
-   *
-  FROM app.transactions WHERE id=${id}
-  `;
+    SELECT
+      *,
+      to_char(date, 'YYYY-MM-DD') AS date
+    FROM app.transactions
+    WHERE id=${id}`;
   if (result.length === 0) return null;
   return result[0];
 }

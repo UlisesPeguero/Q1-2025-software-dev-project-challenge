@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Select({
   name,
@@ -8,11 +8,18 @@ export default function Select({
   containerClasses = 'col-12',
   selectClasses = '',
   labelClasses = '',
+  onChangeValue,
   onChange,
+  value,
   invalidFeedback = null,
   ...rest
 }) {
-  const [selectedValue, setSelectedValue] = useState(_selectedValue);
+  // const [selectedValue, setSelectedValue] = useState();
+
+  // useEffect(() => {
+  //   if (typeof rest?.value === 'object') _selectedValue = rest.value[name];
+  //   setSelectedValue(_selectedValue);
+  // }, []);
 
   const _containerClass = containerClasses;
   const _selectClass = 'form-select ' + selectClasses;
@@ -22,10 +29,25 @@ export default function Select({
   if (typeof label === 'undefined')
     label = name.charAt(0).toUpperCase() + name.slice(1);
 
-  const handleSelectedOption = ({ target }) => {
-    setSelectedValue(target.value);
-    if (typeof onChange === 'function') onChange(target.value);
-  };
+  // const handleSelectedOption = ({ target }) => {
+  //   setSelectedValue(target.value);
+  //   if (typeof onChange === 'function') onChange(target.value);
+  //   if (typeof onChangeSelection === 'function') {
+  //     let data = {};
+  //     data[name] = target.value;
+  //     onChangeSelection(data);
+  //   }
+  // };
+
+  if (typeof value === 'object') value = value[name];
+  if (typeof onChangeValue === 'function') {
+    onChange = ({ target }) => {
+      let data = {};
+      data[name] = target.value;
+      onChangeValue(data);
+    };
+  }
+
   return (
     <div className={_containerClass}>
       {label && (
@@ -38,8 +60,8 @@ export default function Select({
         id={name}
         aria-label={name}
         className={_selectClass + (invalidFeedback ? ' is-invalid' : '')}
-        value={selectedValue}
-        onChange={handleSelectedOption}>
+        value={value}
+        onChange={onChange}>
         {options.map((option, index) => {
           const id =
             typeof option === 'object' ? option?.id || option.value : option;

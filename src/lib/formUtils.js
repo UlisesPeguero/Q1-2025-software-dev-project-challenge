@@ -6,6 +6,12 @@ export function validateFormData(formData, schema) {
   let data = getRawFormData(formData);
   const validation = schema.safeParse(data);
 
+  return [validation.success ? validation.data : data, validation];
+}
+
+export function validateData(data, schema) {
+  const validation = schema.safeParse(data);
+
   let validationResult = {
     success: true,
   };
@@ -16,8 +22,8 @@ export function validateFormData(formData, schema) {
       errors: validation.error.flatten().fieldErrors,
     };
   } else {
-    data = validation.data;
+    validationResult.data = validation.data;
   }
 
-  return [data, validationResult];
+  return validationResult;
 }

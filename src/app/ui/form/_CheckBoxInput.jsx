@@ -10,6 +10,7 @@ export default function _CheckBoxInput({
   labelClasses = '',
   reverse,
   labelLocation = 'right',
+  onChangeValue,
   ...rest
 }) {
   const _containerClass =
@@ -17,6 +18,16 @@ export default function _CheckBoxInput({
   const _inputClass = 'form-check-input ' + inputClasses;
   const _labelClass = 'form-check-label ' + labelClasses;
   const _id = id ? id : name;
+
+  if (typeof checked === 'object') checked = checked[name];
+
+  if (typeof onChangeValue === 'function') {
+    rest.onChange = ({ target }) => {
+      let data = {};
+      data[name] = target.checked;
+      onChangeValue(data);
+    };
+  }
 
   return (
     <>

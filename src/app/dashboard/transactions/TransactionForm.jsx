@@ -26,7 +26,10 @@ export default function TransactionForm({ data, categories }) {
   );
 
   useEffect(() => {
-    if (data) setTransaction(data);
+    if (data) {
+      console.log(data);
+      setTransaction(data);
+    }
     setIsUpdate(!!data);
   }, [data]);
 
@@ -41,7 +44,8 @@ export default function TransactionForm({ data, categories }) {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    console.log(transaction);
+
     if (formData.get('active') === 'on') formData.set('active', true);
     startTransition(() => createTransactionAction(formData));
   };
@@ -55,7 +59,7 @@ export default function TransactionForm({ data, categories }) {
           name='date'
           type='date'
           value={transaction}
-          onChangeText={handleOnChange}
+          onChangeValue={handleOnChange}
           invalidFeedback={state}
           containerClasses='col-auto'
         />
@@ -63,6 +67,8 @@ export default function TransactionForm({ data, categories }) {
           name='categoryId'
           label='Category'
           options={categories}
+          value={transaction}
+          onChangeValue={handleOnChange}
           invalidFeedback={state}
         />
         <Input
@@ -70,18 +76,24 @@ export default function TransactionForm({ data, categories }) {
           type='number'
           containerClasses='col-4'
           value={transaction}
-          onChangeText={handleOnChange}
+          onChangeValue={handleOnChange}
           invalidFeedback={state}
         />
         <TextArea
           name='description'
           rows={2}
           value={transaction}
-          onChangeText={handleOnChange}
+          onChangeValue={handleOnChange}
           invalidFeedback={state}
         />
         {isUpdate && (
-          <CheckBox name='active' label='Active' isSwitch checked={true} />
+          <CheckBox
+            name='active'
+            label='Active'
+            isSwitch
+            checked={transaction}
+            onChangeValue={handleOnChange}
+          />
         )}
         <ToolBar
           classes='w-100'
