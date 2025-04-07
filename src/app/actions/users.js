@@ -2,7 +2,7 @@
 
 import sql from '@/lib/db';
 import bcrypt from 'bcrypt';
-import UserSchema from '@/lib/data/UserSchema';
+import UserSchema from '@/lib/data/schemas/UserSchema';
 
 export async function hashPassword(password) {
   return await bcrypt.hash(password, 10);

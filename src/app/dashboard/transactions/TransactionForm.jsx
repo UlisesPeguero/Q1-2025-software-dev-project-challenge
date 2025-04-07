@@ -1,7 +1,7 @@
 'use client';
 
 import Input from '#/form/Input';
-import { createTransaction } from '@/app/actions/transactions';
+import { updateTransactionAction } from '@/app/actions/transactions';
 import Select from '#/form/Select';
 import { startTransition, useActionState, useState, useEffect } from 'react';
 import ToolBar from '#/ToolBar';
@@ -20,14 +20,13 @@ export default function TransactionForm({ data, categories }) {
   });
   const [isUpdate, setIsUpdate] = useState();
   const [edited, setEdited] = useState(false);
-  const [state, createTransactionAction, pending] = useActionState(
-    createTransaction,
+  const [state, transactionAction, pending] = useActionState(
+    updateTransactionAction,
     undefined
   );
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setTransaction(data);
     }
     setIsUpdate(!!data);
@@ -45,9 +44,7 @@ export default function TransactionForm({ data, categories }) {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     console.log(transaction);
-
-    if (formData.get('active') === 'on') formData.set('active', true);
-    startTransition(() => createTransactionAction(formData));
+    startTransition(() => transactionAction(transaction));
   };
 
   const handleBtnCancel = () => router.replace('../transactions');
@@ -59,7 +56,7 @@ export default function TransactionForm({ data, categories }) {
           name='date'
           type='date'
           value={transaction}
-          onChangeValue={handleOnChange}
+          onValueChange={handleOnChange}
           invalidFeedback={state}
           containerClasses='col-auto'
         />
@@ -68,22 +65,25 @@ export default function TransactionForm({ data, categories }) {
           label='Category'
           options={categories}
           value={transaction}
-          onChangeValue={handleOnChange}
+          onValueChange={handleOnChange}
           invalidFeedback={state}
         />
         <Input
           name='amount'
-          type='number'
-          containerClasses='col-4'
+          type='currency'
+          containerClasses='col-3'
+          inputClasses='text-end'
+          decimalScale={2}
+          allowNegativeValue={false}
           value={transaction}
-          onChangeValue={handleOnChange}
+          onValueChange={handleOnChange}
           invalidFeedback={state}
         />
         <TextArea
           name='description'
           rows={2}
           value={transaction}
-          onChangeValue={handleOnChange}
+          onValueChange={handleOnChange}
           invalidFeedback={state}
         />
         {isUpdate && (
@@ -92,7 +92,7 @@ export default function TransactionForm({ data, categories }) {
             label='Active'
             isSwitch
             checked={transaction}
-            onChangeValue={handleOnChange}
+            onValueChange={handleOnChange}
           />
         )}
         <ToolBar
@@ -119,6 +119,7 @@ export default function TransactionForm({ data, categories }) {
               message: 'Save new transaction',
               type: 'submit',
               busy: pending,
+              disabled: !edited,
             },
           ]}
         />

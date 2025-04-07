@@ -1,8 +1,8 @@
-:root,
-[data-bs-theme='light'] {
+:root {
   --bs-primary: #5b5fc7;
   --bs-primary-rgb: #5b5fc7;
   --bs-blue: #7579eb;
+  --bs-border-radius: 2px;
 }
 
 body {

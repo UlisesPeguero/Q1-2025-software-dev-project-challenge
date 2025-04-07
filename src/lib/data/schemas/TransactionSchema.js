@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
 const TransactionSchema = z.object({
-  date: z.coerce.date(),
+  id: z.number().optional(),
+  date: z.string().date(),
   categoryId: z.coerce.number(),
   description: z
     .string()
