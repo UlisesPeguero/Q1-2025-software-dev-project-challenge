@@ -29,6 +29,7 @@ export default function ToolBar({
             type={button.type}
             size={button.size}
             busy={button.busy}
+            disabled={button.disabled}
           />
         );
       })}

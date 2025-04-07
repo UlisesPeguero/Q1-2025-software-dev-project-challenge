@@ -1,4 +1,7 @@
+import { getFallbackRouteParams } from 'next/dist/server/request/fallback-params';
 import React, { useState } from 'react';
+import { FileBreakFill } from 'react-bootstrap-icons';
+import CurrencyInput from 'react-currency-input-field';
 
 function SimpleInput({ name, type, classes, ...rest }) {
   const inputClass = 'form-control ' + classes;
@@ -18,6 +21,20 @@ function SimpleTextArea({ name, classes, rows = null, ...rest }) {
   );
 }
 
+function SimpleCurrencyWrapper({ name, classes, onChange, ...rest }) {
+  return (
+    <div className='input-group'>
+      <span className='input-group-text br-1'>$</span>
+      <CurrencyInput
+        id={name}
+        name={name}
+        className={('form-control ' + classes).trim()}
+        {...rest}
+      />
+    </div>
+  );
+}
+
 export default function Input({
   name,
   label,
@@ -26,21 +43,39 @@ export default function Input({
   inputClasses = '',
   initialValue = '',
   invalidFeedback,
-  onChangeValue,
   ...rest
 }) {
   const _containerClass = '' + containerClasses;
   const _labelClass = 'form-label';
-  const _Input = type === 'textarea' ? SimpleTextArea : SimpleInput;
+
+  if (typeof rest.onValueChange === 'function') {
+    const onChange = rest.onValueChange;
+    delete rest.onValueChange;
+    const handleOnChange = (value) => {
+      let data = {};
+      data[name] = value;
+      onChange(data);
+    };
+
+    if (type === 'currency')
+      rest.onValueChange = (_value, name, values) => handleOnChange(_value);
+    else rest.onChange = ({ target }) => handleOnChange(target.value);
+  }
+
+  let _Input;
+  switch (type) {
+    case 'textarea':
+      _Input = SimpleTextArea;
+      break;
+    case 'currency':
+      _Input = SimpleCurrencyWrapper;
+      type = 'text';
+      break;
+    default:
+      _Input = SimpleInput;
+  }
 
   if (typeof rest.value === 'object') rest.value = rest.value[name];
-  if (typeof onChangeValue === 'function') {
-    rest.onChange = (event) => {
-      let data = {};
-      data[name] = event.target.value;
-      onChangeValue(data);
-    };
-  }
 
   invalidFeedback = invalidFeedback?.errors[name];
   if (typeof label === 'undefined')

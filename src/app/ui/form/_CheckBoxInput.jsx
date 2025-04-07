@@ -10,7 +10,7 @@ export default function _CheckBoxInput({
   labelClasses = '',
   reverse,
   labelLocation = 'right',
-  onChangeValue,
+  onValueChange,
   ...rest
 }) {
   const _containerClass =
@@ -21,11 +21,11 @@ export default function _CheckBoxInput({
 
   if (typeof checked === 'object') checked = checked[name];
 
-  if (typeof onChangeValue === 'function') {
+  if (typeof onValueChange === 'function') {
     rest.onChange = ({ target }) => {
       let data = {};
       data[name] = target.checked;
-      onChangeValue(data);
+      onValueChange(data);
     };
   }
 

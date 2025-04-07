@@ -8,7 +8,7 @@ export default function Select({
   containerClasses = 'col-12',
   selectClasses = '',
   labelClasses = '',
-  onChangeValue,
+  onValueChange,
   onChange,
   value,
   invalidFeedback = null,
@@ -40,11 +40,11 @@ export default function Select({
   // };
 
   if (typeof value === 'object') value = value[name];
-  if (typeof onChangeValue === 'function') {
+  if (typeof onValueChange === 'function') {
     onChange = ({ target }) => {
       let data = {};
       data[name] = target.value;
-      onChangeValue(data);
+      onValueChange(data);
     };
   }
 

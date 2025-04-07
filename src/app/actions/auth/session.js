@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { createSession, deleteSession } from '@/lib/auth/session';
 import { getRawFormData, validateFormData } from '@/lib/formUtils';
-import UserSchema from '@/lib/data/UserSchema';
+import UserSchema from '@/lib/data/schemas/UserSchema';
 import { redirect } from 'next/navigation';
 import sql from '@/lib/db';
 import { addUser, verifyPassword } from '@/app/actions/users';

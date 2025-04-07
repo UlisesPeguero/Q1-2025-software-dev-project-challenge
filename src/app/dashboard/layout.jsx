@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }) {
           <BreadCrumbs />
           <div className='scroll-wrapper'>
             <main className=' pt-2 px-4 col bg-light overflow-auto'>
-              <div className='content col-lg-12 col-xl-10 col-xxl-8'>
+              <div className='content col-m-12 col-lg-10 col-xl-8 col-xxl-6'>
                 {children}
               </div>
             </main>

@@ -1,12 +1,16 @@
 'use server';
 
-import { addTransaction } from '@/lib/data/transactions';
-import TransactionSchema from '@/lib/data/TransactionSchema';
+import { addTransaction, updateTransaction } from '@/lib/data/transactions';
+import TransactionSchema from '@/lib/data/schemas/TransactionSchema';
 import { validateData } from '@/lib/formUtils';
 import { redirect } from 'next/navigation';
 
-export async function createTransaction(state, data) {
-  const validation = await validateData(data, TransactionSchema.omit('active'));
+export async function updateTransactionAction(state, data) {
+  const isUpdate = !!data?.id;
+  const validation = validateData(
+    data,
+    isUpdate ? TransactionSchema : TransactionSchema.omit('active')
+  );
 
   if (!validation.success) {
     return {
@@ -14,15 +18,32 @@ export async function createTransaction(state, data) {
     };
   }
 
-  //   const result = await addTransaction(validation.data);
+  validation.data.amount *= 100; //turn to integer to avoid rounding errors with JS
 
-  //   if (result.length === 0) {
-  //     return {
-  //       dbError: 'The transaction could not be saved.',
-  //     };
-  //   }
+  if (isUpdate) {
+    update(state, validation.data);
+  } else {
+    //create(state, validation.data);
+  }
+}
 
-  const result = [{ id: 1 }];
+export async function create(state, data) {
+  const result = await addTransaction(data);
+  if (!result) {
+    return {
+      dbError: "The transaction couldn't be created.",
+    };
+  }
+  //revalidatePath('/transactions'); // refresh cache for the grid
+  redirect(`/transactions/${result.id}`); // redirect to edit
+}
 
-  redirect(`/transactions/${result[0].id}`);
+export async function update(state, data) {
+  const result = await updateTransaction(data);
+  if (!result) {
+    return {
+      dbError: "The transaction couldn't be updated.",
+    };
+  }
+  //revalidatePath('/transactions'); // refresh cache for the grid
 }
