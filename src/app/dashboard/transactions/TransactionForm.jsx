@@ -8,6 +8,7 @@ import ToolBar from '#/ToolBar';
 import CheckBox from '#/form/CheckBox';
 import TextArea from '#/form/TextArea';
 import { useRouter } from 'next/navigation';
+import ToastStore from '@/lib/datastores/ToastStore';
 
 export default function TransactionForm({ data, categories }) {
   const router = useRouter();
@@ -47,7 +48,10 @@ export default function TransactionForm({ data, categories }) {
     startTransition(() => transactionAction(transaction));
   };
 
-  const handleBtnCancel = () => router.replace('../transactions');
+  const handleBtnCancel = () =>
+    ToastStore.update((toast) => {
+      toast.message = 'Testing toast';
+    }); //router.replace('../transactions');
 
   return (
     <>
