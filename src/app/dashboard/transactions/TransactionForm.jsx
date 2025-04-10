@@ -29,7 +29,7 @@ export default function TransactionForm({ data, categories }) {
   useEffect(() => {
     if (data) {
       setTransaction(data);
-      console.log(data);
+      console.log('getTransaction', data);
     }
     setIsUpdate(!!data);
   }, [data]);
@@ -54,7 +54,7 @@ export default function TransactionForm({ data, categories }) {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    console.log(transaction);
+    console.log('Save', transaction);
     if (transaction.amount === '') transaction.amount = 0.0;
     startTransition(() => transactionAction(transaction));
   };
