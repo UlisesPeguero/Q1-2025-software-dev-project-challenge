@@ -8,7 +8,7 @@ import ToolBar from '#/ToolBar';
 import CheckBox from '#/form/CheckBox';
 import TextArea from '#/form/TextArea';
 import { useRouter } from 'next/navigation';
-import ToastStore from '@/lib/datastores/ToastStore';
+import { toast } from 'react-toastify';
 
 export default function TransactionForm({ data, categories }) {
   const router = useRouter();
@@ -29,12 +29,22 @@ export default function TransactionForm({ data, categories }) {
   useEffect(() => {
     if (data) {
       setTransaction(data);
+      console.log(data);
     }
     setIsUpdate(!!data);
   }, [data]);
 
+  useEffect(() => {
+    console.log('State', state);
+    if (state?.dbError)
+      toast.error(state.dbError, {
+        autoClose: false,
+      });
+    else if (state?.updated)
+      toast.success('The transaction was updated succesfully.');
+  }, [state]);
+
   const handleOnChange = (updatedData) => {
-    console.log(updatedData);
     setTransaction({
       ...transaction,
       ...updatedData,
@@ -45,13 +55,11 @@ export default function TransactionForm({ data, categories }) {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     console.log(transaction);
+    if (transaction.amount === '') transaction.amount = 0.0;
     startTransition(() => transactionAction(transaction));
   };
 
-  const handleBtnCancel = () =>
-    ToastStore.update((toast) => {
-      toast.message = 'Testing toast';
-    }); //router.replace('../transactions');
+  const handleBtnCancel = () => router.replace('../transactions');
 
   return (
     <>

@@ -9,8 +9,8 @@ export async function getTransactionCategories(active = true) {
 
 export async function addTransaction(transaction) {
   const result = await sql`
-    INSERT INTO app.transactions(category_id, amount, description)
-    VALUES(${transaction.categoryId}, ${transaction.amount},${transaction.description})
+    INSERT INTO app.transactions(date, category_id, amount, description)
+    VALUES(${transaction.date}, ${transaction.categoryId}, ${transaction.amount},${transaction.description})
     returning id
     `;
   if (result.length === 0) return null;
@@ -24,7 +24,7 @@ export async function getTransaction(id) {
       category_id,
       to_char(date, 'YYYY-MM-DD') AS date,
       amount::real/100 AS amount, 
-      description,
+      COALESCE(description, '') AS description,
       active
     FROM app.transactions
     WHERE id=${id}`;
@@ -38,7 +38,8 @@ export async function updateTransaction(transaction) {
     ${sql(transaction, 'date', 'categoryId', 'amount', 'description', 'active')}
     WHERE id=${transaction.id}
   `;
+  console.log(result);
   if (result.length === 0) return null;
-  console.log(result, result[0]);
+
   return result;
 }

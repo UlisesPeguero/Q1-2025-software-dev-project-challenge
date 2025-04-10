@@ -3,25 +3,49 @@ import React, { useState } from 'react';
 import { FileBreakFill } from 'react-bootstrap-icons';
 import CurrencyInput from 'react-currency-input-field';
 
-function SimpleInput({ name, type, classes, ...rest }) {
+function SimpleInput({ name, type, classes, invalidFeedback, ...rest }) {
   const inputClass = 'form-control ' + classes;
   return (
-    <input id={name} name={name} type={type} className={inputClass} {...rest} />
+    <>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        className={inputClass}
+        {...rest}
+      />
+      <InvalidFeedback invalidFeedback={invalidFeedback} />
+    </>
   );
 }
 
-function SimpleTextArea({ name, classes, rows = null, ...rest }) {
+function SimpleTextArea({
+  name,
+  classes,
+  rows = null,
+  invalidFeedback,
+  ...rest
+}) {
   return (
-    <textarea
-      id={name}
-      name={name}
-      rows={rows}
-      className={('form-control ' + classes).trim()}
-      {...rest}></textarea>
+    <>
+      <textarea
+        id={name}
+        name={name}
+        rows={rows}
+        className={('form-control ' + classes).trim()}
+        {...rest}></textarea>
+      <InvalidFeedback invalidFeedback={invalidFeedback} />
+    </>
   );
 }
 
-function SimpleCurrencyWrapper({ name, classes, onChange, ...rest }) {
+function SimpleCurrencyWrapper({
+  name,
+  classes,
+  onChange,
+  invalidFeedback,
+  ...rest
+}) {
   return (
     <div className='input-group'>
       <span className='input-group-text br-1'>$</span>
@@ -31,6 +55,24 @@ function SimpleCurrencyWrapper({ name, classes, onChange, ...rest }) {
         className={('form-control ' + classes).trim()}
         {...rest}
       />
+      <InvalidFeedback invalidFeedback={invalidFeedback} />
+    </div>
+  );
+}
+
+function InvalidFeedback({ invalidFeedback }) {
+  if (!invalidFeedback) return null;
+  return (
+    <div className='invalid-feedback'>
+      {invalidFeedback.length > 1 ? (
+        <ul>
+          {invalidFeedback.map((error) => (
+            <li key={error}>- {error} </li>
+          ))}
+        </ul>
+      ) : (
+        invalidFeedback
+      )}
     </div>
   );
 }
@@ -77,7 +119,8 @@ export default function Input({
 
   if (typeof rest.value === 'object') rest.value = rest.value[name];
 
-  invalidFeedback = invalidFeedback?.errors[name];
+  if (typeof invalidFeedback === 'object')
+    invalidFeedback = invalidFeedback?.errors?.[name];
   if (typeof label === 'undefined')
     label = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -91,22 +134,10 @@ export default function Input({
       <_Input
         name={name}
         type={type}
+        invalidFeedback={invalidFeedback}
         classes={inputClasses + (invalidFeedback ? ' is-invalid' : '')}
         {...rest}
       />
-      {invalidFeedback && (
-        <div className='invalid-feedback'>
-          {invalidFeedback.length > 1 ? (
-            <ul>
-              {invalidFeedback.map((error) => (
-                <li key={error}>- {error} </li>
-              ))}
-            </ul>
-          ) : (
-            invalidFeedback
-          )}
-        </div>
-      )}
     </div>
   );
 }

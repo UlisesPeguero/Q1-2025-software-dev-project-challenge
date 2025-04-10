@@ -25,7 +25,8 @@ export default function Select({
   const _selectClass = 'form-select ' + selectClasses;
   const _labelClass = 'form-label ' + labelClasses;
 
-  invalidFeedback = invalidFeedback?.errors['name'];
+  if (typeof invalidFeedback === 'object')
+    invalidFeedback = invalidFeedback?.errors?.[name];
   if (typeof label === 'undefined')
     label = name.charAt(0).toUpperCase() + name.slice(1);
 
