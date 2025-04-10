@@ -20,11 +20,11 @@ export async function updateTransactionAction(state, data) {
 
   validation.data.amount *= 100; //turn to integer to avoid rounding errors with JS
 
-  if (isUpdate) {
-    update(state, validation.data);
-  } else {
-    //create(state, validation.data);
-  }
+  const hadDBErrors = isUpdate
+    ? update(state, validation.data)
+    : create(state, validation.data);
+
+  return hadDBErrors;
 }
 
 export async function create(state, data) {
@@ -32,18 +32,24 @@ export async function create(state, data) {
   if (!result) {
     return {
       dbError: "The transaction couldn't be created.",
+      created: false,
     };
   }
   //revalidatePath('/transactions'); // refresh cache for the grid
-  redirect(`/transactions/${result.id}`); // redirect to edit
+  redirect(`/dashboard/transactions/${result.id}`); // redirect to edit
 }
 
 export async function update(state, data) {
+  console.log('Update', data);
   const result = await updateTransaction(data);
   if (!result) {
     return {
       dbError: "The transaction couldn't be updated.",
+      updated: false,
     };
   }
   //revalidatePath('/transactions'); // refresh cache for the grid
+  return {
+    updated: true,
+  };
 }

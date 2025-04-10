@@ -3,7 +3,7 @@ import './dashboard.css';
 import AppBar from '#/dashboard/header/AppBar';
 import BreadCrumbs from '#/dashboard/BreadCrumbs';
 import NavigationBar from '#/dashboard/navigation/NavigationBar';
-import ShowToast from '../ui/dashboard/ShowToast';
+import Notifications from '#/dashboard/Notifications';
 
 export default function DashboardLayout({ children }) {
   //TODO Change to DB call
@@ -46,13 +46,13 @@ export default function DashboardLayout({ children }) {
         <div className='d-flex flex-column w-100'>
           <BreadCrumbs />
           <div className='scroll-wrapper'>
-            <ShowToast />
             <main className=' pt-2 px-4 col bg-light overflow-auto'>
               <div className='content col-m-12 col-lg-10 col-xl-8 col-xxl-6'>
                 {children}
               </div>
             </main>
           </div>
+          <Notifications />
         </div>
       </div>
     </>

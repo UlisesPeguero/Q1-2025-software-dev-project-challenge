@@ -14,11 +14,11 @@
     "jose": "^6.0.10",
     "next": "15.2.3",
     "postgres": "^3.4.5",
-    "pullstate": "^1.25.0",
     "react": "^19.0.0",
     "react-bootstrap-icons": "^1.11.5",
     "react-currency-input-field": "^3.10.0",
     "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
