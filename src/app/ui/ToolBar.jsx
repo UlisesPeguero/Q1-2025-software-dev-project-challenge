@@ -30,6 +30,7 @@ export default function ToolBar({
             size={button.size}
             busy={button.busy}
             disabled={button.disabled}
+            data={button.data}
           />
         );
       })}
