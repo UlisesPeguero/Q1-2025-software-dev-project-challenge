@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body className='bg-light'>
         {children}
-        <BootstrapClient />
+        <div id='modal-container'></div>
       </body>
     </html>
   );

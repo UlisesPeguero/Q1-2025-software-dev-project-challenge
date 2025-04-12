@@ -4,7 +4,7 @@ export default function ToolBar({
   buttons,
   align,
   classes = '',
-  gap,
+  gap = 2,
   ...rest
 }) {
   return (

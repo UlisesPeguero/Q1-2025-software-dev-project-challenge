@@ -7,10 +7,13 @@ import { startTransition, useActionState, useState, useEffect } from 'react';
 import ToolBar from '#/ToolBar';
 import CheckBox from '#/form/CheckBox';
 import TextArea from '#/form/TextArea';
+import QuestionDialog from '@/app/ui/QuestionDialog';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import TransactionDeleteDialog from './TransactionDeleteDialog';
+import ContentHeader from '@/app/ui/dashboard/content/ContentHeader';
 
-export default function TransactionForm({ data, categories }) {
+export default function TransactionForm({ title, data, categories }) {
   const router = useRouter();
   const [transaction, setTransaction] = useState({
     date: '',
@@ -21,6 +24,7 @@ export default function TransactionForm({ data, categories }) {
   });
   const [isUpdate, setIsUpdate] = useState();
   const [edited, setEdited] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [state, transactionAction, pending] = useActionState(
     updateTransactionAction,
     undefined
@@ -63,6 +67,22 @@ export default function TransactionForm({ data, categories }) {
 
   return (
     <>
+      <ContentHeader title={title}>
+        {isUpdate && (
+          <ToolBar
+            align='right'
+            buttons={[
+              {
+                text: 'Delete',
+                message: 'Delete the current transaction.',
+                classes: 'btn-danger',
+                icon: 'Trash',
+                onClick: () => setShowDeleteDialog(true),
+              },
+            ]}
+          />
+        )}
+      </ContentHeader>
       <form className='row g-3' noValidate onSubmit={handleOnSubmit}>
         <Input
           name='date'
@@ -115,14 +135,14 @@ export default function TransactionForm({ data, categories }) {
               icon: 'Eraser',
               classes: 'btn-secondary me-auto',
               message: 'Reset form',
-              busy: pending,
+              disabled: pending,
               type: 'reset',
             },
             {
               text: 'Cancel',
               classes: 'btn-secondary',
               message: 'Cancel',
-              busy: pending,
+              disabled: pending,
               onClick: handleBtnCancel,
             },
             {
@@ -136,6 +156,13 @@ export default function TransactionForm({ data, categories }) {
           ]}
         />
       </form>
+      {isUpdate && (
+        <TransactionDeleteDialog
+          show={showDeleteDialog}
+          onConfirm={() => console.log('Confirm deletion')}
+          onClose={() => setShowDeleteDialog(false)}
+        />
+      )}
     </>
   );
 }
