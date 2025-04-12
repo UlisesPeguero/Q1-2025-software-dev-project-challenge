@@ -11,6 +11,7 @@ export default function Select({
   onValueChange,
   onChange,
   value,
+  emptySelection = 'Select an option',
   invalidFeedback = null,
   ...rest
 }) {
@@ -63,6 +64,7 @@ export default function Select({
         className={_selectClass + (invalidFeedback ? ' is-invalid' : '')}
         value={value}
         onChange={onChange}>
+        {emptySelection && <option value='-1'>{emptySelection}</option>}
         {options.map((option, index) => {
           const id =
             typeof option === 'object' ? option?.id || option.value : option;

@@ -4,7 +4,7 @@ export default function ToolBar({
   buttons,
   align,
   classes = '',
-  gap,
+  gap = 2,
   ...rest
 }) {
   return (
@@ -30,6 +30,7 @@ export default function ToolBar({
             size={button.size}
             busy={button.busy}
             disabled={button.disabled}
+            data={button.data}
           />
         );
       })}

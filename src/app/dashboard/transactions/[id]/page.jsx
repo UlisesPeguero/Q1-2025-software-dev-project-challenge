@@ -15,10 +15,11 @@ export default async function EditTransaction({ params }) {
   ]);
   return (
     <>
-      <ContentHeader title='Edit transaction' backButtonTo='../transactions'>
-        <TransactionToolbar />
-      </ContentHeader>
-      <TransactionForm categories={categories} data={transaction} />
+      <TransactionForm
+        title='Edit transaction'
+        categories={categories}
+        data={transaction}
+      />
     </>
   );
 }

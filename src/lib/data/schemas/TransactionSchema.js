@@ -3,7 +3,7 @@ import { z } from 'zod';
 const TransactionSchema = z.object({
   id: z.number().optional(),
   date: z.string().date('Select a valid date.'),
-  categoryId: z.coerce.number(),
+  categoryId: z.coerce.number('Invalid selection.').gt(0, 'Invalid selection.'),
   description: z
     .string()
     .transform((value) => (value === '' ? null : value))

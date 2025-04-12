@@ -3,10 +3,19 @@
   --bs-primary-rgb: #5b5fc7;
   --bs-blue: #7579eb;
   --bs-border-radius: 2px;
+  --bs-modal-border-radius: 4px;
+  --bs-modal-inner-border-radius: 4px;
 }
 
 body {
   overflow: hidden;
+}
+
+.btn {
+  outline: none;
+  border-width: 0px;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 4px;
 }
 
 .btn-primary {
@@ -22,6 +31,10 @@ body {
 
 .btn-danger {
   --bs-btn-bg: #94232e;
+}
+
+.btn-close-dialog {
+  padding: 0;
 }
 
 .form-check-input:checked {
@@ -99,4 +112,9 @@ tr.inactive td {
   height: 42px;
   border-radius: 50%;
   border: 2px #fff solid;
+}
+
+.modal-backdrop {
+  display: block;
+  background-color: #00000044;
 }

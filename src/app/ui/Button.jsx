@@ -29,16 +29,17 @@ export default function Button({
   spinnerClass = 'spinner-border spinner-border-sm',
   tooltip,
   disabled,
+  data = {},
   ...rest
 }) {
   // TODO: Testing styles
-  if (typeof style === 'undefined')
-    style = {
-      outline: 'none',
-      borderWidth: '0',
-      borderRadius: '2px',
-      boxShadow: '0 1px 4px rgba(0, 0, 0, .6)',
-    };
+  // if (typeof style === 'undefined')
+  //   style = {
+  //     outline: 'none',
+  //     borderWidth: '0',
+  //     borderRadius: '2px',
+  //     boxShadow: '0 1px 4px rgba(0, 0, 0, .6)',
+  //   };
   return (
     <button
       id={id || 'btn' + (text ? text.replace(' ', '') : icon)}
@@ -50,6 +51,7 @@ export default function Button({
       onClick={onClick}
       title={tooltip}
       disabled={disabled || busy}
+      {...data}
       {...rest}>
       {text || icon ? (
         <ButtonContent {...{ icon, iconSize, text, busy, spinnerClass }} />

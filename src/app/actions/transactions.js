@@ -11,7 +11,7 @@ export async function updateTransactionAction(state, data) {
     data,
     isUpdate ? TransactionSchema : TransactionSchema.omit('active')
   );
-
+  console.log(data);
   if (!validation.success) {
     return {
       errors: validation.errors,
