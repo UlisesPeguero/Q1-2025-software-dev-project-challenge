@@ -12,8 +12,12 @@ export default function TransactionDeleteDialog({ show, onClose, onConfirm }) {
       onClose={onClose}
       onConfirm={onConfirm}
       align='right'>
-      This action will remove the transaction from the database permanently, do
-      you wish to continue?
+      <div className='d-flex flex-column'>
+        <p>
+          This action will remove the transaction from the database permanently.
+        </p>
+        <p className='ms-auto px-3 fw-semibold'>Do you wish to continue?</p>
+      </div>
     </QuestionDialog>
   );
 }
