@@ -23,7 +23,7 @@ export async function updateTransactionAction(state, data) {
     };
   }
 
-  validation.data.amount *= 100; //turn to integer to avoid rounding errors with JS
+  validation.data.amount = Math.round(validation.data.amount * 100); //turn to integer to avoid rounding errors with JS
 
   const hadDBErrors = isUpdate
     ? update(state, validation.data)
@@ -41,7 +41,7 @@ export async function create(state, data) {
     };
   }
   revalidatePath('/dahboard/transactions'); // refresh cache for the grid
-  redirect(`/dashboard/transactions/${result.id}`); // redirect to edit
+  redirect(`/dashboard/transactions/${result.id}?created`); // redirect to edit
 }
 
 export async function update(state, data) {
@@ -58,8 +58,8 @@ export async function update(state, data) {
   };
 }
 
-export async function deleteTransactionAction(state, id) {
+export async function deleteTransactionAction(id) {
   await deleteTransaction(id);
   revalidatePath('/dashboard/transactions');
-  redirect('/dashboard/transactions');
+  redirect('/dashboard/transactions?deleted');
 }

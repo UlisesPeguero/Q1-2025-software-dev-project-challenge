@@ -1,16 +1,27 @@
+import { getCurrentSession } from '../auth/session';
 import sql from '../db';
 
+async function getUserId() {
+  const session = await getCurrentSession();
+  if (session) return session.userId;
+  return null;
+}
+
 export async function getTransactionCategories(active = true) {
+  const userId = await getUserId();
+  if (!userId) return null;
   const result =
-    await sql`SELECT id, name AS description FROM app.categories WHERE active=${active}`;
+    await sql`SELECT id, name AS description FROM app.categories WHERE user_id=${userId} AND active=${active}`;
 
   return result;
 }
 
 export async function addTransaction(transaction) {
+  const userId = await getUserId();
+  if (!userId) return null;
   const result = await sql`
-    INSERT INTO app.transactions(date, category_id, amount, description)
-    VALUES(${transaction.date}, ${transaction.categoryId}, ${transaction.amount},${transaction.description})
+    INSERT INTO app.transactions(date, category_id, amount, description, user_id)
+    VALUES(${transaction.date}, ${transaction.categoryId}, ${transaction.amount},${transaction.description}, ${userId})
     returning id
     `;
   if (result.length === 0) return null;
@@ -38,10 +49,9 @@ export async function updateTransaction(transaction) {
     ${sql(transaction, 'date', 'categoryId', 'amount', 'description', 'active')}
     WHERE id=${transaction.id}
 
-    returning *
+    returning id
   `;
-  //if (result.length === 0) return null;
-  console.log('Update', result);
+  if (result.length === 0) return null;
   return result;
 }
 

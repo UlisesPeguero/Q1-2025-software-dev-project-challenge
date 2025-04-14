@@ -61,13 +61,13 @@ export default function TransactionForm({ title, data, categories }) {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     if (transaction.amount === '') transaction.amount = 0.0;
+    console.log('Save', transaction);
     startTransition(() => transactionAction(transaction));
   };
 
   const handleOnConfirmDeletion = isUpdate
     ? () => {
-        console.log(transaction.id);
-        //startTransition(() => deleteTransactionAction(transaction.id));
+        startTransition(() => deleteTransactionAction(transaction.id));
       }
     : null;
 
