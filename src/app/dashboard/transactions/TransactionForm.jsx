@@ -66,7 +66,8 @@ export default function TransactionForm({ title, data, categories }) {
 
   const handleOnConfirmDeletion = isUpdate
     ? () => {
-        startTransition(() => deleteTransactionAction(transaction.id));
+        console.log(transaction.id);
+        //startTransition(() => deleteTransactionAction(transaction.id));
       }
     : null;
 
@@ -166,7 +167,11 @@ export default function TransactionForm({ title, data, categories }) {
       {isUpdate && (
         <TransactionDeleteDialog
           show={showDeleteDialog}
-          message={`This action will remove the transaction <span class="fw-semibold>${transaction.amount}"`}
+          message={
+            (transaction.description ?? categories[transaction.categoryId]) +
+            ' - $ ' +
+            transaction.amount
+          }
           onConfirm={() => handleOnConfirmDeletion()}
           onClose={() => setShowDeleteDialog(false)}
         />

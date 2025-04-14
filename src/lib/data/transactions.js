@@ -37,9 +37,11 @@ export async function updateTransaction(transaction) {
     UPDATE app.transactions SET
     ${sql(transaction, 'date', 'categoryId', 'amount', 'description', 'active')}
     WHERE id=${transaction.id}
-  `;
-  if (result.length === 0) return null;
 
+    returning *
+  `;
+  //if (result.length === 0) return null;
+  console.log('Update', result);
   return result;
 }
 
