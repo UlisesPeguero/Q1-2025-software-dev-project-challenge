@@ -1,9 +1,14 @@
 'use server';
 
-import { addTransaction, updateTransaction } from '@/lib/data/transactions';
+import {
+  addTransaction,
+  deleteTransaction,
+  updateTransaction,
+} from '@/lib/data/transactions';
 import TransactionSchema from '@/lib/data/schemas/TransactionSchema';
 import { validateData } from '@/lib/formUtils';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function updateTransactionAction(state, data) {
   const isUpdate = !!data?.id;
@@ -35,12 +40,11 @@ export async function create(state, data) {
       created: false,
     };
   }
-  //revalidatePath('/transactions'); // refresh cache for the grid
+  revalidatePath('/dahboard/transactions'); // refresh cache for the grid
   redirect(`/dashboard/transactions/${result.id}`); // redirect to edit
 }
 
 export async function update(state, data) {
-  console.log('Update', data);
   const result = await updateTransaction(data);
   if (!result) {
     return {
@@ -48,8 +52,14 @@ export async function update(state, data) {
       updated: false,
     };
   }
-  //revalidatePath('/transactions'); // refresh cache for the grid
+  revalidatePath('/dashboard/transactions'); // refresh cache for the grid
   return {
     updated: true,
   };
+}
+
+export async function deleteTransactionAction(state, id) {
+  await deleteTransaction(id);
+  revalidatePath('/dashboard/transactions');
+  redirect('/dashboard/transactions');
 }

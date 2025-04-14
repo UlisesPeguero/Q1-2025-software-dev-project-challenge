@@ -37,9 +37,17 @@ export async function updateTransaction(transaction) {
     UPDATE app.transactions SET
     ${sql(transaction, 'date', 'categoryId', 'amount', 'description', 'active')}
     WHERE id=${transaction.id}
-  `;
-  console.log(result);
-  if (result.length === 0) return null;
 
+    returning *
+  `;
+  //if (result.length === 0) return null;
+  console.log('Update', result);
   return result;
+}
+
+export async function deleteTransaction(id) {
+  const result = await sql`
+    DELETE FROM app.transactions WHERE id=${id}
+  `;
+  console.log('Delete', result);
 }

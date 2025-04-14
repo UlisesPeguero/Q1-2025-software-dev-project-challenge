@@ -1,13 +1,15 @@
 'use client';
 
 import Input from '#/form/Input';
-import { updateTransactionAction } from '@/app/actions/transactions';
+import {
+  deleteTransactionAction,
+  updateTransactionAction,
+} from '@/app/actions/transactions';
 import Select from '#/form/Select';
 import { startTransition, useActionState, useState, useEffect } from 'react';
 import ToolBar from '#/ToolBar';
 import CheckBox from '#/form/CheckBox';
 import TextArea from '#/form/TextArea';
-import QuestionDialog from '@/app/ui/QuestionDialog';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import TransactionDeleteDialog from './TransactionDeleteDialog';
@@ -58,10 +60,16 @@ export default function TransactionForm({ title, data, categories }) {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    console.log('Save', transaction);
     if (transaction.amount === '') transaction.amount = 0.0;
     startTransition(() => transactionAction(transaction));
   };
+
+  const handleOnConfirmDeletion = isUpdate
+    ? () => {
+        console.log(transaction.id);
+        //startTransition(() => deleteTransactionAction(transaction.id));
+      }
+    : null;
 
   const handleBtnCancel = () => router.replace('../transactions');
 
@@ -159,7 +167,12 @@ export default function TransactionForm({ title, data, categories }) {
       {isUpdate && (
         <TransactionDeleteDialog
           show={showDeleteDialog}
-          onConfirm={() => console.log('Confirm deletion')}
+          message={
+            (transaction.description ?? categories[transaction.categoryId]) +
+            ' - $ ' +
+            transaction.amount
+          }
+          onConfirm={() => handleOnConfirmDeletion()}
           onClose={() => setShowDeleteDialog(false)}
         />
       )}

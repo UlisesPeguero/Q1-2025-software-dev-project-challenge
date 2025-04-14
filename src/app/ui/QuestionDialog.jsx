@@ -24,7 +24,6 @@ export default function QuestionDialog({
       text: 'Cancel',
       message: 'Cancel',
       classes: 'btn-secondary',
-      icon: 'X',
       onClick: onCancel ?? onClose,
     },
   };
