@@ -7,18 +7,21 @@ export default function GridRowsPerPageSelector({
   customOnChangeHandler,
   selectedValue,
   options = [10, 20, 30],
-  label = 'Rows per page'
+  label = 'Rows per page',
 }) {
-
   const handleOnChange = (value) => {
-    if (typeof customOnChangeHandler === 'function') customOnChangeHandler(value);
+    if (typeof customOnChangeHandler === 'function')
+      customOnChangeHandler(value);
     onChange(value);
   };
 
   return (
     <>
       <label htmlFor={gridName + 'RowPerPageSelect'}>{label}&nbsp;</label>
-      <Select containerClasses=''
+      <Select
+        containerClasses=''
+        label={null}
+        emptySelection={null}
         selectedValue={selectedValue}
         options={options}
         onChange={handleOnChange}
