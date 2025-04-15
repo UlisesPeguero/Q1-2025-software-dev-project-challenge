@@ -26,6 +26,7 @@ export default function Select({
   const _selectClass = 'form-select ' + selectClasses;
   const _labelClass = 'form-label ' + labelClasses;
 
+  if (!options) options = [];
   if (typeof invalidFeedback === 'object')
     invalidFeedback = invalidFeedback?.errors?.[name];
   if (typeof label === 'undefined')
