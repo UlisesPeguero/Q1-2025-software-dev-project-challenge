@@ -11,6 +11,7 @@ const DEFAULT_ROWS_PER_PAGE = 20;
 const LOAD_ONCE = 1;
 const REMOTE_REFRESH = 2;
 const REMOTE = 3;
+const ACTIONS = 'actions';
 const GRID_PATH = '/grid';
 const SEARCH_PATH = '/search';
 
@@ -33,13 +34,16 @@ function getDataByName(name, dataObject) {
 }
 
 function DataRow({ model, data, rowToolBar }) {
+  console.log;
   return (
     <tr>
-      {model.map(({ name, classes = '' }) => {
+      {model.map(({ name, classes = '', formatter }) => {
         return (
           <td key={name} className={classes}>
             {rowToolBar && name === 'toolbar' ? (
               <RowToolBar data={data} rowToolBar={rowToolBar} />
+            ) : formatter ? (
+              formatter(getDataByName(name, data))
             ) : (
               getDataByName(name, data)
             )}
@@ -89,14 +93,21 @@ function filterAllData(data, onFilter) {
 
 async function getRemoteData(api, activePage, rowsPerPage) {
   let response;
-  try {
-    response = await Axios.get(
-      api.mode === REMOTE ? api.endpoint + GRID_PATH : api.endpoint
-    );
-  } catch (ex) {
-    console.log(ex);
+  switch (api.mode) {
+    case REMOTE:
+      try {
+        response = await Axios.get(
+          api.mode === REMOTE ? api.endpoint + GRID_PATH : api.endpoint
+        ).data;
+      } catch (ex) {
+        console.log(ex);
+      }
+      break;
+    case ACTIONS:
+      response = await api.getData(activePage, rowsPerPage);
+      break;
   }
-  return response.data || [];
+  return response || [];
 }
 
 export default function Grid({
@@ -135,6 +146,9 @@ export default function Grid({
     } else {
       api = { localData };
     }
+  }
+  if (api.mode === ACTIONS) {
+    api.localData = false;
   }
   const filteredModel = model.filter((col) => !col.hidden);
   const [domReady, setDomReady] = useState(false);

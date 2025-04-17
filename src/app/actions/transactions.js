@@ -3,6 +3,7 @@
 import {
   addTransaction,
   deleteTransaction,
+  getTransactions,
   updateTransaction,
 } from '@/lib/data/transactions';
 import TransactionSchema from '@/lib/data/schemas/TransactionSchema';
@@ -62,4 +63,14 @@ export async function deleteTransactionAction(id) {
   await deleteTransaction(id);
   revalidatePath('/dashboard/transactions');
   redirect('/dashboard/transactions?deleted');
+}
+
+export async function getTransactionsAction(page, rowsPerPage) {
+  const result = await getTransactions(page, rowsPerPage);
+  if (!result) {
+    return {
+      dbError: "The transactions couldn't be fetched.",
+    };
+  }
+  return result;
 }

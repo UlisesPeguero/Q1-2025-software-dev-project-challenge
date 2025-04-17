@@ -43,6 +43,25 @@ export async function getTransaction(id) {
   return result[0];
 }
 
+export async function getTransactions() {
+  const userId = await getUserId();
+  if (!userId) return null;
+  const result = await sql`
+    SELECT
+      transactions.id,
+      categories.name AS category,
+      to_char(date, 'MM/DD/YYYY') AS date,
+      amount::real/100 AS amount, 
+      COALESCE(description, '') AS description,
+      transactions.active
+    FROM app.transactions AS transactions
+    JOIN app.categories AS categories ON transactions.category_id = categories.id
+    WHERE transactions.user_id=${userId}
+  `;
+  if (result.length === 0) return null;
+  return result;
+}
+
 export async function updateTransaction(transaction) {
   const result = await sql`
     UPDATE app.transactions SET
