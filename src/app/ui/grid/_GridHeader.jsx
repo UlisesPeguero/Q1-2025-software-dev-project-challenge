@@ -12,6 +12,7 @@ function GridHeaderCell({
   searchable,
   length,
   onSort,
+  formatter, // remove from props for header
   ...rest
 }) {
   if (length) style.width = length + (typeof length === 'number' ? 'px' : '');

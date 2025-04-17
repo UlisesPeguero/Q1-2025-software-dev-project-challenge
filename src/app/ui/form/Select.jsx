@@ -32,24 +32,23 @@ export default function Select({
   if (typeof label === 'undefined')
     label = name.charAt(0).toUpperCase() + name.slice(1);
 
-  // const handleSelectedOption = ({ target }) => {
-  //   setSelectedValue(target.value);
-  //   if (typeof onChange === 'function') onChange(target.value);
-  //   if (typeof onChangeSelection === 'function') {
-  //     let data = {};
-  //     data[name] = target.value;
-  //     onChangeSelection(data);
-  //   }
-  // };
-
-  if (typeof value === 'object') value = value[name];
-  if (typeof onValueChange === 'function') {
-    onChange = ({ target }) => {
+  const handleSelectedOption = ({ target }) => {
+    if (typeof onChange === 'function') onChange(target.value);
+    if (typeof onValueChange === 'function') {
       let data = {};
       data[name] = target.value;
       onValueChange(data);
-    };
-  }
+    }
+  };
+
+  if (typeof value === 'object') value = value[name];
+  // if (typeof onValueChange === 'function') {
+  //   onChange = ({ target }) => {
+  //     let data = {};
+  //     data[name] = target.value;
+  //     onValueChange(data);
+  //   };
+  // }
 
   return (
     <div className={_containerClass}>
@@ -64,7 +63,7 @@ export default function Select({
         aria-label={name}
         className={_selectClass + (invalidFeedback ? ' is-invalid' : '')}
         value={value}
-        onChange={onChange}>
+        onChange={handleSelectedOption}>
         {emptySelection && <option value='-1'>{emptySelection}</option>}
         {options.map((option, index) => {
           const id =
