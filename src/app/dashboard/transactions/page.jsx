@@ -39,7 +39,6 @@ export default function Transactions() {
           mode: 'actions',
           getData: getTransactionsAction,
         }}
-        height='60vh'
         toolbar={{
           containerId: 'usersGridToolbar',
           search: true,
@@ -58,9 +57,9 @@ export default function Transactions() {
             label: 'ID',
             type: 'number',
           },
-          {
-            name: 'toolbar',
-          },
+          // {
+          //   name: 'toolbar',
+          // },
           {
             name: 'date',
             label: 'Date',

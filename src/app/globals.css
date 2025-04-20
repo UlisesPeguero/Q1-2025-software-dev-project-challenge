@@ -9,6 +9,10 @@
   --bs-link-hover-color: #232795;
 }
 
+.table {
+  --bs-table-hover-bg: #5b5fc722;
+}
+
 .pagination {
   --bs-pagination-active-bg: #5b5fc7;
   --bs-pagination-active-border-color: #5b5fc7;

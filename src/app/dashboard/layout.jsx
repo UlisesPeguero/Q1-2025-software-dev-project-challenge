@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }) {
         <div className='d-flex flex-column w-100'>
           <BreadCrumbs />
           <div className='scroll-wrapper'>
-            <main className=' pt-2 px-4 col bg-light overflow-auto'>
+            <main className='d-flex pt-2 px-4 col bg-light overflow-auto'>
               <div className='content col-m-12 col-lg-10 col-xl-8 col-xxl-6'>
                 {children}
               </div>

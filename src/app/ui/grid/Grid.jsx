@@ -34,7 +34,6 @@ function getDataByName(name, dataObject) {
 }
 
 function DataRow({ model, data, rowToolBar }) {
-  console.log;
   return (
     <tr>
       {model.map(({ name, classes = '', formatter }) => {
@@ -119,7 +118,7 @@ export default function Grid({
   classes = '',
   pagination,
   currentPage,
-  height = '40vh',
+  height = '100%',
   rowToolBar = {},
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
@@ -279,13 +278,13 @@ export default function Grid({
   };
 
   return (
-    <div className='vstack gap-3' style={{ height }}>
+    <div className='vstack gap-3'>
       {domReady && toolbar?.containerId && (
         <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
       )}
       <div
-        className='d-flex p-0 w-100 overflow-auto'
-        style={{ backgroundColor: 'darkgray' }}>
+        className='p-0 w-100 overflow-auto flex-grow-1 flex-shrink-1'
+        style={{ backgroundColor: 'darkgray', height }}>
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} onSort={handleOnSort} />
           <tbody>
@@ -309,7 +308,7 @@ export default function Grid({
         </table>
       </div>
       {showPagination && (
-        <div className='d-flex align-items-center'>
+        <div className='d-flex align-items-center flex-grow-0 flex-shrink-0'>
           <GridRowsPerPageSelector
             gridName={name}
             selectedValue={currentRowsPerPage}
