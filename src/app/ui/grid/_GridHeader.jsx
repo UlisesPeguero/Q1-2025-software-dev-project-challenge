@@ -16,7 +16,8 @@ function GridHeaderCell({
   ...rest
 }) {
   if (length) style.width = length + (typeof length === 'number' ? 'px' : '');
-
+  style.position = 'sticky';
+  style.top = '0px';
   let handleSortClick = null;
   let sortingIcon = null;
   if (sortable) {

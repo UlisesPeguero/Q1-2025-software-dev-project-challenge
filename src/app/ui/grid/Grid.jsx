@@ -278,13 +278,13 @@ export default function Grid({
   };
 
   return (
-    <div className='vstack gap-3'>
+    <div className='vstack gap-3 overflow-hidden'>
       {domReady && toolbar?.containerId && (
         <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
       )}
       <div
-        className='p-0 w-100 overflow-auto flex-grow-1 flex-shrink-1'
-        style={{ backgroundColor: 'darkgray', height }}>
+        className='p-0 w-100 overflow-auto'
+        style={{ backgroundColor: 'darkgray', flex: '1 1 auto' }}>
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} onSort={handleOnSort} />
           <tbody>
@@ -308,7 +308,7 @@ export default function Grid({
         </table>
       </div>
       {showPagination && (
-        <div className='d-flex align-items-center flex-grow-0 flex-shrink-0'>
+        <div className='d-flex align-items-center' style={{ flex: '0 0 auto' }}>
           <GridRowsPerPageSelector
             gridName={name}
             selectedValue={currentRowsPerPage}
