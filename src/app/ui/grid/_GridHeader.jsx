@@ -24,6 +24,7 @@ function GridHeaderCell({
     handleSortClick = () => {
       onSort({ name, type, sortFunction: sortable });
     };
+    style.cursor = 'pointer';
     sortingIcon =
       sortingState === null
         ? 'ChevronExpand'
@@ -33,10 +34,12 @@ function GridHeaderCell({
   }
 
   return (
-    <th className={classes} style={style} {...rest} onClick={handleSortClick}>
-      {label}
-      &nbsp;
-      {sortable && <Icon iconName={sortingIcon} />}
+    <th
+      className={`${classes} bg-dark-subtle bg-gradient`}
+      style={style}
+      {...rest}
+      onClick={handleSortClick}>
+      {label} {sortable && <Icon iconName={sortingIcon} />}
     </th>
   );
 }

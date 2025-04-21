@@ -326,7 +326,7 @@ export default function Grid({
           <GridPaginator
             pagesShown={pagination?.maxPagesShown}
             currentPage={currentActivePage}
-            totalRows={data.length}
+            totalRows={currentData.length}
             rowsPerPage={currentRowsPerPage}
             onClick={handlePageChange}
           />
