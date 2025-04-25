@@ -21,13 +21,7 @@ export default function GridPaginator({
 }) {
   //TODO: Restructure the pagination buttons calculation
   const totalPages = Math.ceil(totalRows / rowsPerPage);
-  console.log('Paginator', {
-    totalRows,
-    totalPages,
-    rowsPerPage,
-    currentPage,
-    pagesShown,
-  });
+
   if (currentPage < 1) currentPage = 1;
   else if (currentPage > totalPages) currentPage = totalPages;
   const handleClickGoto = () => true;
