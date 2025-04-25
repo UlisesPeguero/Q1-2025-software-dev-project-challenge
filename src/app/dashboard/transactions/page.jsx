@@ -57,9 +57,9 @@ export default function Transactions() {
             label: 'ID',
             type: 'number',
           },
-          // {
-          //   name: 'toolbar',
-          // },
+          {
+            name: 'toolbar',
+          },
           {
             name: 'date',
             label: 'Date',
