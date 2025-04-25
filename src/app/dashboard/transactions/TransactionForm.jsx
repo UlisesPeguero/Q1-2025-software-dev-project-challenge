@@ -91,79 +91,81 @@ export default function TransactionForm({ title, data, categories }) {
           />
         )}
       </ContentHeader>
-      <form className='row g-3' noValidate onSubmit={handleOnSubmit}>
-        <Input
-          name='date'
-          type='date'
-          value={transaction}
-          onValueChange={handleOnChange}
-          invalidFeedback={state}
-          containerClasses='col-auto'
-        />
-        <Select
-          name='categoryId'
-          label='Category'
-          options={categories}
-          value={transaction}
-          onValueChange={handleOnChange}
-          invalidFeedback={state}
-        />
-        <Input
-          name='amount'
-          type='currency'
-          containerClasses='col-3'
-          inputClasses='text-end'
-          decimalScale={2}
-          allowNegativeValue={false}
-          value={transaction}
-          onValueChange={handleOnChange}
-          invalidFeedback={state}
-        />
-        <TextArea
-          name='description'
-          rows={2}
-          value={transaction}
-          onValueChange={handleOnChange}
-          invalidFeedback={state}
-        />
-        {isUpdate && (
-          <CheckBox
-            name='active'
-            label='Active'
-            isSwitch
-            checked={transaction}
+      <div className='col-m-12 col-lg-10 col-xl-8 col-xxl-6'>
+        <form className='row g-3' noValidate onSubmit={handleOnSubmit}>
+          <Input
+            name='date'
+            type='date'
+            value={transaction}
             onValueChange={handleOnChange}
+            invalidFeedback={state}
+            containerClasses='col-auto'
           />
-        )}
-        <ToolBar
-          classes='w-100'
-          gap={3}
-          buttons={[
-            {
-              icon: 'Eraser',
-              classes: 'btn-secondary me-auto',
-              message: 'Reset form',
-              disabled: pending,
-              type: 'reset',
-            },
-            {
-              text: 'Cancel',
-              classes: 'btn-secondary',
-              message: 'Cancel',
-              disabled: pending,
-              onClick: handleBtnCancel,
-            },
-            {
-              text: 'Save',
-              icon: 'Save',
-              message: 'Save new transaction',
-              type: 'submit',
-              busy: pending,
-              disabled: !edited,
-            },
-          ]}
-        />
-      </form>
+          <Select
+            name='categoryId'
+            label='Category'
+            options={categories}
+            value={transaction}
+            onValueChange={handleOnChange}
+            invalidFeedback={state}
+          />
+          <Input
+            name='amount'
+            type='currency'
+            containerClasses='col-3'
+            inputClasses='text-end'
+            decimalScale={2}
+            allowNegativeValue={false}
+            value={transaction}
+            onValueChange={handleOnChange}
+            invalidFeedback={state}
+          />
+          <TextArea
+            name='description'
+            rows={2}
+            value={transaction}
+            onValueChange={handleOnChange}
+            invalidFeedback={state}
+          />
+          {isUpdate && (
+            <CheckBox
+              name='active'
+              label='Active'
+              isSwitch
+              checked={transaction}
+              onValueChange={handleOnChange}
+            />
+          )}
+          <ToolBar
+            classes='w-100'
+            gap={3}
+            buttons={[
+              {
+                icon: 'Eraser',
+                classes: 'btn-secondary me-auto',
+                message: 'Reset form',
+                disabled: pending,
+                type: 'reset',
+              },
+              {
+                text: 'Cancel',
+                classes: 'btn-secondary',
+                message: 'Cancel',
+                disabled: pending,
+                onClick: handleBtnCancel,
+              },
+              {
+                text: 'Save',
+                icon: 'Save',
+                message: 'Save new transaction',
+                type: 'submit',
+                busy: pending,
+                disabled: !edited,
+              },
+            ]}
+          />
+        </form>
+      </div>
       {isUpdate && (
         <TransactionDeleteDialog
           show={showDeleteDialog}
