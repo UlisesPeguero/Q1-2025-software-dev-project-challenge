@@ -164,12 +164,7 @@ export default function Grid({
     // wait for DOM to be ready for the toolbar
     setDomReady(true);
     if (!apiData.localData) {
-      const response = getRemoteData(
-        apiData,
-        currentActivePage,
-        currentRowsPerPage
-      );
-      response.then((data) => setCurrentData(data));
+      refreshRemoteData(apiData, currentActivePage, currentRowsPerPage);
     }
   }, [apiData, currentActivePage, currentRowsPerPage]);
 
@@ -184,6 +179,12 @@ export default function Grid({
       setToolbar(_toolbar);
     }
   };
+
+  const refreshRemoteData = (api, currentPage, rowsPerPage) => {
+    const response = getRemoteData(api, currentPage, rowsPerPage);
+    response.then((data) => setCurrentData(data));
+  };
+
   // toolbar handler
   const handleToolBarActions = (action, value) => {
     console.log('Action: ', action, value);
@@ -206,7 +207,8 @@ export default function Grid({
         if (api.localData) {
           setCurrentData(data);
           return;
-        }
+        } else
+          refreshRemoteData(apiData, currentActivePage, currentRowsPerPage);
         break;
       case Toolbar.FILTER:
         // const allButton = Toolbar.SHOW_ALL;

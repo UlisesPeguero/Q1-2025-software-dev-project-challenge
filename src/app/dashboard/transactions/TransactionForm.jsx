@@ -91,8 +91,11 @@ export default function TransactionForm({ title, data, categories }) {
           />
         )}
       </ContentHeader>
-      <div className='col-m-12 col-lg-10 col-xl-8 col-xxl-6'>
-        <form className='row g-3' noValidate onSubmit={handleOnSubmit}>
+      <div className='pb-2 overflow-auto'>
+        <form
+          className='row g-3 col-m-12 col-lg-10 col-xl-8 col-xxl-6'
+          noValidate
+          onSubmit={handleOnSubmit}>
           <Input
             name='date'
             type='date'

@@ -57,9 +57,9 @@ export default function Transactions() {
             label: 'ID',
             type: 'number',
           },
-          // {
-          //   name: 'toolbar',
-          // },
+          {
+            name: 'toolbar',
+          },
           {
             name: 'date',
             label: 'Date',
@@ -74,7 +74,7 @@ export default function Transactions() {
             searchable: true,
             sortable: true,
             classes: 'text-center',
-            length: 100,
+            length: 110,
           },
           {
             name: 'amount',
@@ -164,16 +164,16 @@ export default function Transactions() {
             icon: 'Trash',
             size: 'sm',
             style: null,
-            classes: 'btn-outline-primary',
+            classes: 'btn-outline-primary shadow-none',
             onClick: (data) => console.log(`Delete row ID:${data.id}`),
           },
           {
             icon: 'Pen',
             size: 'sm',
             style: null,
-            classes: 'btn-outline-primary',
+            classes: 'btn-outline-primary shadow-none',
             onClick: (data) =>
-              console.log(`Open for edition row ID:${data.id}`),
+              router.push(`/dashboard/transactions/${data.id}`),
           },
         ]}
       />
