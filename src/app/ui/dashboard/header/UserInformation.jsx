@@ -23,6 +23,7 @@ export default async function UserInformation(props) {
         )}
         <button
           className='btn dropdown-toggle dropdown-toggle-split'
+          // style={{ '--bs-btn-color': 'var(--bs-light-color)' }}
           type='button'
           data-bs-toggle='dropdown'
           aria-expanded='false'></button>
