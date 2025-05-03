@@ -150,6 +150,7 @@ export default function Grid({
     api.localData = false;
   }
   const filteredModel = model.filter((col) => !col.hidden);
+  const [isLoading, setIsLoading] = useState(false);
   const [domReady, setDomReady] = useState(false);
   const [currentActivePage, setCurrentActivePage] = useState(currentPage);
   const [currentRowsPerPage, setCurrentRowsPerPage] = useState(
@@ -230,6 +231,8 @@ export default function Grid({
         toggleButton(action, filterButton);
         if (api.localData) {
           setCurrentData(data);
+        } else {
+          setIsLoading((isLoading) => !isLoading);
         }
         break;
       case Toolbar.PAGINATION:
@@ -284,31 +287,42 @@ export default function Grid({
       {domReady && toolbar?.containerId && (
         <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
       )}
-      <div
-        className='p-0 w-100 overflow-auto'
-        style={{ backgroundColor: 'darkgray', flex: '1 1 auto' }}>
-        <table className={_tableClass} {...rest}>
-          <GridHeader model={filteredModel} onSort={handleOnSort} />
-          <tbody>
-            {currentData.length > 0 && (
-              <GridBody
-                data={
-                  showPagination
-                    ? getCurrentPageData(
-                        currentData,
-                        currentRowsPerPage,
-                        currentActivePage
-                      )
-                    : currentData
-                }
-                model={filteredModel}
-                rowToolBar={rowToolBar}
-                idName={idName}
-              />
-            )}
-          </tbody>
-        </table>
-      </div>
+      {isLoading && (
+        <div
+          className='d-flex justify-content-center align-items-center bg-secondary-subtle'
+          style={{ flex: '1 1 auto' }}>
+          <div
+            className='spinner-border'
+            style={{ height: '4rem', width: '4rem' }}></div>
+        </div>
+      )}
+      {!isLoading && (
+        <div
+          className='p-0 w-100 overflow-auto'
+          style={{ backgroundColor: 'darkgray', flex: '1 1 auto' }}>
+          <table className={_tableClass} {...rest}>
+            <GridHeader model={filteredModel} onSort={handleOnSort} />
+            <tbody>
+              {currentData.length > 0 && (
+                <GridBody
+                  data={
+                    showPagination
+                      ? getCurrentPageData(
+                          currentData,
+                          currentRowsPerPage,
+                          currentActivePage
+                        )
+                      : currentData
+                  }
+                  model={filteredModel}
+                  rowToolBar={rowToolBar}
+                  idName={idName}
+                />
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
       {showPagination && (
         <div className='d-flex align-items-center' style={{ flex: '0 0 auto' }}>
           <GridRowsPerPageSelector
