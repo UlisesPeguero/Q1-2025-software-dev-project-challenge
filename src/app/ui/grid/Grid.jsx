@@ -78,7 +78,11 @@ function searchAndFilterLocalData(data, searchValue, searchableColumns) {
   return [...data].filter((row) => checkForValue(searchValue, row));
 }
 
-function getCurrentPageData(data, rowsPerPage, currentPage) {
+async function getRemotePageData(api, rowsPerPage, currentPage, sortInfo) {
+  return getRemoteData(api, 1, 20);
+}
+
+function getCurrentLocalPageData(data, rowsPerPage, currentPage) {
   let start = (currentPage - 1 < 0 ? 0 : currentPage - 1) * rowsPerPage;
   return [...data].slice(start, start + rowsPerPage);
 }
@@ -156,6 +160,7 @@ export default function Grid({
   const [currentRowsPerPage, setCurrentRowsPerPage] = useState(
     pagination?.rowsPerPage || DEFAULT_ROWS_PER_PAGE
   );
+  const [sortInfo, setSortInfo] = useState({});
   const [currentData, setCurrentData] = useState(data);
   const [toolbar, setToolbar] = useState(_toolbar);
   const [showPagination, setShowPagination] = useState(!!pagination);
@@ -184,6 +189,16 @@ export default function Grid({
   const refreshRemoteData = (api, currentPage, rowsPerPage) => {
     const response = getRemoteData(api, currentPage, rowsPerPage);
     response.then((data) => setCurrentData(data));
+  };
+
+  const getCurrentPageData = async () => {
+    if (apiData.localData)
+      return getCurrentLocalPageData(
+        currentData,
+        currentRowsPerPage,
+        currentActivePage
+      );
+    return [];
   };
 
   // toolbar handler
@@ -279,6 +294,7 @@ export default function Grid({
     } else {
       sortFunction = (a, b) => getSortDirection * sortFunction(a, b);
     }
+    setSortInfo({ name, type, sortFunction, state });
     setCurrentData(sortedData.sort(sortFunction));
   };
 
@@ -307,7 +323,7 @@ export default function Grid({
                 <GridBody
                   data={
                     showPagination
-                      ? getCurrentPageData(
+                      ? getCurrentLocalPageData(
                           currentData,
                           currentRowsPerPage,
                           currentActivePage
