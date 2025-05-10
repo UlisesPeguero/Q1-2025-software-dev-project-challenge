@@ -65,8 +65,8 @@ export async function deleteTransactionAction(id) {
   redirect('/dashboard/transactions?deleted');
 }
 
-export async function getTransactionsAction(page, rowsPerPage) {
-  const result = await getTransactions(page, rowsPerPage);
+export async function getTransactionsAction(page, rowsPerPage, sorting) {
+  const result = await getTransactions(page, rowsPerPage, sorting);
   if (!result) {
     return {
       dbError: "The transactions couldn't be fetched.",
