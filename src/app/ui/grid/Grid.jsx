@@ -94,7 +94,8 @@ function filterAllData(data, onFilter) {
   });
 }
 
-async function getRemoteData(api, activePage, rowsPerPage) {
+async function getRemoteData(api, activePage, rowsPerPage, sorting) {
+  console.log({ api, activePage, rowsPerPage, sorting });
   let response;
   switch (api.mode) {
     case REMOTE:
@@ -107,7 +108,7 @@ async function getRemoteData(api, activePage, rowsPerPage) {
       }
       break;
     case ACTIONS:
-      response = await api.getData(activePage, rowsPerPage);
+      response = await api.getData(activePage, rowsPerPage, sorting);
       break;
   }
   return response || [];
@@ -160,7 +161,7 @@ export default function Grid({
   const [currentRowsPerPage, setCurrentRowsPerPage] = useState(
     pagination?.rowsPerPage || DEFAULT_ROWS_PER_PAGE
   );
-  const [sortInfo, setSortInfo] = useState({});
+  const [currentSorting, setCurrentSorting] = useState({});
   const [currentData, setCurrentData] = useState(data);
   const [toolbar, setToolbar] = useState(_toolbar);
   const [showPagination, setShowPagination] = useState(!!pagination);
@@ -170,9 +171,9 @@ export default function Grid({
     // wait for DOM to be ready for the toolbar
     setDomReady(true);
     if (!apiData.localData) {
-      refreshRemoteData(apiData, currentActivePage, currentRowsPerPage);
+      updateRemoteData();
     }
-  }, [apiData, currentActivePage, currentRowsPerPage]);
+  }, [apiData, currentActivePage, currentRowsPerPage, currentSorting]);
 
   const toggleButton = (target, newButton) => {
     let _toolbar = { ...toolbar };
@@ -186,19 +187,16 @@ export default function Grid({
     }
   };
 
-  const refreshRemoteData = (api, currentPage, rowsPerPage) => {
-    const response = getRemoteData(api, currentPage, rowsPerPage);
-    response.then((data) => setCurrentData(data));
-  };
-
-  const getCurrentPageData = async () => {
-    if (apiData.localData)
-      return getCurrentLocalPageData(
-        currentData,
-        currentRowsPerPage,
-        currentActivePage
-      );
-    return [];
+  const updateRemoteData = async () => {
+    //setIsLoading(true);
+    const data = await getRemoteData(
+      apiData,
+      currentActivePage,
+      currentRowsPerPage,
+      currentSorting
+    );
+    setCurrentData(data);
+    //setIsLoading(false);
   };
 
   // toolbar handler
@@ -246,8 +244,6 @@ export default function Grid({
         toggleButton(action, filterButton);
         if (api.localData) {
           setCurrentData(data);
-        } else {
-          setIsLoading((isLoading) => !isLoading);
         }
         break;
       case Toolbar.PAGINATION:
@@ -294,7 +290,7 @@ export default function Grid({
     } else {
       sortFunction = (a, b) => getSortDirection * sortFunction(a, b);
     }
-    setSortInfo({ name, type, sortFunction, state });
+    setCurrentSorting({ name, type, sortFunction, state });
     setCurrentData(sortedData.sort(sortFunction));
   };
 
