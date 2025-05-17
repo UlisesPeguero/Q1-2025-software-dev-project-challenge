@@ -43,6 +43,16 @@ export async function getTransaction(id) {
   return result[0];
 }
 
+const SELECT_QUERY = `SELECT
+      transactions.id,
+      categories.name AS category,
+      to_char(date, 'MM/DD/YYYY') AS date,
+      amount::real/100 AS amount, 
+      COALESCE(description, '') AS description,
+      transactions.active
+    FROM app.transactions AS transactions
+    JOIN app.categories AS categories ON transactions.category_id = categories.id`;
+
 export async function getTransactions() {
   const userId = await getUserId();
   if (!userId) return null;
@@ -55,10 +65,49 @@ export async function getTransactions() {
       COALESCE(description, '') AS description,
       transactions.active
     FROM app.transactions AS transactions
-    JOIN app.categories AS categories ON transactions.category_id = categories.id
+        JOIN app.categories AS categories ON transactions.category_id = categories.id
     WHERE transactions.user_id=${userId}
   `;
   if (result.length === 0) return null;
+  return result;
+}
+
+export async function getTransactionsPage(page, rowsPerPage, sorting) {
+  const userId = await getUserId();
+  if (!userId) return null;
+  const totalRows =
+    await sql`SELECT COUNT(*) AS total FROM app.transactions WHERE user_id = ${userId}`;
+  const rows = await sql`
+    SELECT
+      transactions.id,
+      categories.name AS category,
+      to_char(date, 'MM/DD/YYYY') AS date,
+      amount::real/100 AS amount, 
+      COALESCE(description, '') AS description,
+      transactions.active
+    FROM app.transactions AS transactions
+    JOIN app.categories AS categories ON transactions.category_id = categories.id
+    WHERE transactions.user_id=${userId}
+    ${
+      sorting?.name
+        ? sql`ORDER BY ${sql(sorting.sortingExpression)} ${
+            sorting.state ? sql`ASC` : sql`DESC`
+          }`
+        : sql``
+    }
+    LIMIT ${rowsPerPage}
+    OFFSET ${(page - 1) * rowsPerPage}
+    
+  `;
+  let result = {
+    content: rows || [],
+    page: {
+      size: rowsPerPage,
+      totalElements: Number(totalRows[0].total),
+      totalPages: Math.ceil(Number(totalRows[0].total) / rowsPerPage),
+      number: page,
+    },
+  };
   return result;
 }
 

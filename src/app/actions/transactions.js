@@ -4,6 +4,7 @@ import {
   addTransaction,
   deleteTransaction,
   getTransactions,
+  getTransactionsPage,
   updateTransaction,
 } from '@/lib/data/transactions';
 import TransactionSchema from '@/lib/data/schemas/TransactionSchema';
@@ -69,7 +70,17 @@ export async function getTransactionsAction(page, rowsPerPage, sorting) {
   const result = await getTransactions(page, rowsPerPage, sorting);
   if (!result) {
     return {
-      dbError: "The transactions couldn't be fetched.",
+      dbError: 'There was an error searching the transactions.',
+    };
+  }
+  return result;
+}
+
+export async function getTransactionsPageAction(page, rowsPerPage, sorting) {
+  const result = await getTransactionsPage(page, rowsPerPage, sorting);
+  if (!result) {
+    return {
+      dbError: 'There was an error searching for the transactions. ',
     };
   }
   return result;

@@ -163,6 +163,7 @@ export default function Grid({
   );
   const [currentSorting, setCurrentSorting] = useState({});
   const [currentData, setCurrentData] = useState(data);
+  const [totalDataRows, setTotalDataRows] = useState(data.length);
   const [toolbar, setToolbar] = useState(_toolbar);
   const [showPagination, setShowPagination] = useState(!!pagination);
   const [apiData, setApiData] = useState(api);
@@ -195,7 +196,9 @@ export default function Grid({
       currentRowsPerPage,
       currentSorting
     );
-    setCurrentData(data);
+    console.log('updateRemoteData', data);
+    setCurrentData(data.content);
+    setTotalDataRows(data.page.totalElements);
     //setIsLoading(false);
   };
 
@@ -221,8 +224,7 @@ export default function Grid({
         if (api.localData) {
           setCurrentData(data);
           return;
-        } else
-          refreshRemoteData(apiData, currentActivePage, currentRowsPerPage);
+        } else updateRemoteData();
         break;
       case Toolbar.FILTER:
         // const allButton = Toolbar.SHOW_ALL;
@@ -268,8 +270,20 @@ export default function Grid({
   if (showPagination && toolbar.buttons.includes(Toolbar.PAGINATION))
     toggleButton(Toolbar.PAGINATION, Toolbar.TABLE);
 
-  const handleOnSort = ({ name, type, sortFunction }, state) => {
-    console.log('handleOnSort', name, type, sortFunction, state);
+  const handleOnSort = (
+    { name, type, sortFunction, sortingExpression },
+    state
+  ) => {
+    console.log(
+      'handleOnSort',
+      name,
+      type,
+      sortFunction,
+      state,
+      sortingExpression
+    );
+    setCurrentSorting({ name, type, sortFunction, state, sortingExpression });
+    if (!apiData.localData) return;
     let sortedData = [...currentData];
     const getSortDirection = () => (!state ? -1 : 1);
     if (typeof sortFunction !== 'function') {
@@ -290,7 +304,7 @@ export default function Grid({
     } else {
       sortFunction = (a, b) => getSortDirection * sortFunction(a, b);
     }
-    setCurrentSorting({ name, type, sortFunction, state });
+
     setCurrentData(sortedData.sort(sortFunction));
   };
 
@@ -318,7 +332,7 @@ export default function Grid({
               {currentData.length > 0 && (
                 <GridBody
                   data={
-                    showPagination
+                    showPagination && apiData.localData
                       ? getCurrentLocalPageData(
                           currentData,
                           currentRowsPerPage,
@@ -354,7 +368,7 @@ export default function Grid({
           <GridPaginator
             pagesShown={pagination?.maxPagesShown}
             currentPage={currentActivePage}
-            totalRows={currentData.length}
+            totalRows={totalDataRows}
             rowsPerPage={currentRowsPerPage}
             onClick={handlePageChange}
           />

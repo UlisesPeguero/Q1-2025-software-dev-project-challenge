@@ -12,6 +12,7 @@ function GridHeaderCell({
   searchable,
   length,
   onSort,
+  sortingExpression,
   formatter, // remove from props for header
   ...rest
 }) {
@@ -22,7 +23,7 @@ function GridHeaderCell({
   let sortingIcon = null;
   if (sortable) {
     handleSortClick = () => {
-      onSort({ name, type, sortFunction: sortable });
+      onSort({ name, type, sortFunction: sortable, sortingExpression });
     };
     style.cursor = 'pointer';
     sortingIcon =

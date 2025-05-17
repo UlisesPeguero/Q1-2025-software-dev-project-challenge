@@ -5,7 +5,7 @@ import ToolBar from '@/app/ui/ToolBar';
 import Grid from '@/app/ui/grid/Grid';
 import { useRouter } from 'next/navigation';
 import { TOOLBAR_ACTIONS as Toolbar } from '@/app/ui/grid/_GridToolBarActions';
-import { getTransactionsAction } from '@/app/actions/transactions';
+import { getTransactionsPageAction } from '@/app/actions/transactions';
 
 export default function Transactions() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function Transactions() {
         //endpoint={'/users'}
         api={{
           mode: 'actions',
-          getData: getTransactionsAction,
+          getData: getTransactionsPageAction,
         }}
         toolbar={{
           containerId: 'usersGridToolbar',
@@ -65,6 +65,7 @@ export default function Transactions() {
             label: 'Date',
             searchable: true,
             sortable: true,
+            sortingExpression: 'transactions.date',
             classes: 'text-center',
             length: 100,
           },
@@ -73,6 +74,7 @@ export default function Transactions() {
             label: 'Category',
             searchable: true,
             sortable: true,
+            sortingExpression: 'category',
             classes: 'text-center',
             length: 110,
           },
@@ -82,6 +84,7 @@ export default function Transactions() {
             formatter: (value) => Number(value).toFixed(2),
             searchable: true,
             sortable: true,
+            sortingExpression: 'transactions.amount',
             classes: 'text-end',
             length: 100,
           },
@@ -90,6 +93,7 @@ export default function Transactions() {
             label: 'Description',
             searchable: true,
             sortable: true,
+            sortingExpression: 'transactions.description',
             length: 400,
           },
         ]}
