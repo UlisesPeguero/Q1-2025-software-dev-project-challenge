@@ -3,6 +3,7 @@ const TOOLBAR_ACTIONS = {
   FILTER: 'filter',
   SHOW_ALL: 'showAll',
   SEARCH: 'search',
+  REMOTE_SEARCH: 'remoteSearch',
   PAGINATION: 'pagination',
   TABLE: 'table',
 };
@@ -13,6 +14,12 @@ const TOOLBAR_BUTTONS = {
     classes: 'btn-sm btn-secondary',
     icon: 'ArrowClockwise',
     message: 'Reload data',
+  },
+  remoteSearch: {
+    id: '_remoteSearchButton',
+    classes: 'btn-sm btn-secondary',
+    icon: 'Search',
+    message: 'Search',
   },
   filter: {
     id: '_filterButton',

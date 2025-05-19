@@ -274,14 +274,6 @@ export default function Grid({
     { name, type, sortFunction, sortingExpression },
     state
   ) => {
-    console.log(
-      'handleOnSort',
-      name,
-      type,
-      sortFunction,
-      state,
-      sortingExpression
-    );
     setCurrentSorting({ name, type, sortFunction, state, sortingExpression });
     if (!apiData.localData) return;
     let sortedData = [...currentData];

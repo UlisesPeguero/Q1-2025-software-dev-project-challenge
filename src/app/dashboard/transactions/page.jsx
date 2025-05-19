@@ -42,7 +42,12 @@ export default function Transactions() {
         toolbar={{
           containerId: 'usersGridToolbar',
           search: true,
-          buttons: [Toolbar.REFRESH, Toolbar.FILTER, Toolbar.PAGINATION],
+          buttons: [
+            Toolbar.REMOTE_SEARCH,
+            Toolbar.REFRESH,
+            Toolbar.FILTER,
+            Toolbar.PAGINATION,
+          ],
         }}
         classes='table-striped table-bordered table-hover'
         // pagination
